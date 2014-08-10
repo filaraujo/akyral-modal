@@ -1,0 +1,235 @@
+@import '../../sass/_mediaqueries';
+
+$overlayColor: #333;
+$modalMargin: 16px;
+$modalMarginViewportUnit: 5vmin;
+
+:host {
+    align-items: center;
+    background: $overlayColor;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    left: 0;
+    min-width: 320px;
+    opacity: 0;
+    overflow: auto;
+    perspective: 1300;
+    pointer-events: none;
+    position: fixed;
+    right: 0;
+    transform: translate3d(0,0,0);
+    transition: opacity .3s .1s cubic-bezier(0.0, 0.0, 0.2, 1);
+    top: 0;
+    will-change: opacity;
+}
+
+:host([shown]){
+    pointer-events: all;
+    opacity: 1;
+    transition: opacity .3s cubic-bezier(0.0, 0.0, 0.2, 1);
+}
+
+:host([type="takeover"]){
+    background: #fff;
+}
+
+:host([pinned="top"]){
+    align-items: flex-start;
+}
+
+:host([pinned="left"]){
+    justify-content: flex-start;
+}
+
+:host([pinned="bottom"]){
+    align-items: flex-end;
+}
+
+:host([pinned="right"]){
+    justify-content: flex-end;
+}
+
+#modal {
+    background: #fff;
+    margin: $modalMargin;
+    margin: $modalMarginViewportUnit;
+    max-width: 720px;
+    opacity: 0;
+    overflow: auto;
+    transition: transform .3s ease-in, opacity .3s cubic-bezier(0.0, 0.0, 0.2, 1);
+    transform: translate3d(0,0,0);
+    will-change: transform, opacity;
+
+// TYPES
+// takeover
+    &[type="takeover"] {
+        transform: scale(.85) ;
+
+        :host([shown]) & {
+            transform: scale(1);
+        }
+    }
+
+// drop
+    &[type="drop"]{
+        transform-style: preserve-3d;
+        transform: translate3d(0,0,350px);
+
+        &[position="top"] {
+            transform: translate3d(0,-30%,350px);
+        }
+
+        &[position="left"] {
+            transform: translate3d(-30%,0,350px);
+        }
+
+        &[position="bottom"] {
+            transform: translate3d(0,30%,350px);
+        }
+
+        &[position="right"] {
+            transform: translate3d(30%,0,350px);
+        }
+    }
+
+// flip
+    &[type="flip"]{
+        // defaults to top
+        transform: rotateX(-70deg) translate3d(0,0,0);
+
+        &[position="left"]{
+            transform: rotateY(70deg) translate3d(0,0,0);
+        }
+
+        &[position="bottom"]{
+            transform: rotateX(70deg) translate3d(0,0,0);
+        }
+
+        &[position="right"]{
+            transform: rotateY(-70deg) translate3d(0,0,0);
+        }
+    }
+
+// lift
+    &[type="lift"]{
+        transform: translate3d(0,0,-350px);
+
+        &[position="top"] {
+            transform: translate3d(0,-30%,-350px);
+        }
+
+        &[position="left"] {
+            transform: translate3d(-30%,0,-350px);
+        }
+
+        &[position="bottom"] {
+            transform: translate3d(0,30%,-350px);
+        }
+
+        &[position="right"] {
+            transform: translate3d(30%,0,-350px);
+        }
+    }
+
+// slide
+    &[type="slide"]{
+        // defaults to top
+        transform: translate3d(0,-20%,0);
+
+//slide position
+        &[position="left"]{
+            transform: translate3d(-20%,0,0);
+        }
+
+        &[position="bottom"]{
+            transform: translate3d(0,20%,0);
+        }
+
+        &[position="right"]{
+            transform: translate3d(20%,0,0);
+        }
+//slide pinned
+        &[pinned="top"]{
+            transform: translate3d(0,-100%,0);
+        }
+
+        &[pinned="left"]{
+            transform: translate3d(-100%,0,0);
+        }
+
+// why is this so inefficient
+        &[pinned="bottom"]{
+            transform: translate3d(0,100%,0);
+        }
+
+        &[pinned="right"]{
+            transform: translate3d(100%,0,0);
+        }
+    }
+
+// swing
+    &[type="swing"]{
+        transform-origin: 50% 0%;
+        transform: rotateX(-60deg) translate3d(0,0,0);
+
+// swing position
+        &[position="left"]{
+            transform-origin: 0% 0%;
+            transform: rotateY(60deg) translate3d(0,0,0);
+        }
+
+        &[position="bottom"]{
+            transform-origin: 50% 100%;
+            transform: rotateX(60deg) translate3d(0,0,0);
+        }
+
+        &[position="right"]{
+            transform-origin: 100% 0%;
+            transform: rotateY(-60deg) translate3d(0,0,0);
+        }
+// swing pinned
+        &[pinned="top"]{
+            transform-origin: 0 0;
+            transform: rotateX(-90deg) translate3d(0,-20px,0) ;
+        }
+
+        &[pinned="left"]{
+            transform-origin: 0 0;
+            transform: rotateY(90deg) translate3d(-20px,0,0) ;
+        }
+
+        &[pinned="bottom"]{
+            transform-origin: 0 100%;
+            transform: rotateX(90deg) translate3d(0,20px,0);
+        }
+
+        &[pinned="right"]{
+            transform-origin: 100% 0;
+            transform: rotateY(-90deg) translate3d(20px,0,0) ;
+        }
+    }
+
+// POSITIONS
+    &[pinned="top"]{
+        margin-top: 0;
+    }
+
+    &[pinned="left"]{
+        margin-left: 0;
+    }
+
+    &[pinned="bottom"]{
+        margin-bottom: 0;
+    }
+
+    &[pinned="right"]{
+        margin-right: 0;
+    }
+
+    :host([shown]) & {
+        opacity: 1;
+        transform: translate3d(0,0,0) !important;
+        transition: transform .3s .1s cubic-bezier(0.0, 0.0, 0.2, 1), opacity .3s .1s cubic-bezier(0.0, 0.0, 0.2, 1);
+    }
+}

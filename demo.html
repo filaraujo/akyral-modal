@@ -1,0 +1,193 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title>ui-dialog Demo</title>
+
+    <script src="../platform/platform.js"></script>
+    <link rel="import" href="akyral-dialog.html">
+
+</head>
+
+<body unresolved>
+
+    <p>An `ui-dialog` looks like this:</p>
+
+
+    <polymer-element name="demo-content" attributes="">
+        <template>
+            <style>
+                :host {
+                    display: block;
+                }
+            </style>
+            <p>
+                Reprehenderit cupidatat duis deserunt incididunt ex voluptate. Dolor laboris reprehenderit ullamco do minim laborum qui minim. Dolor Lorem velit pariatur irure duis Lorem est sit exercitation ex enim. Quis veniam occaecat qui voluptate anim enim qui cillum
+                incididunt est enim. Cupidatat deserunt dolor id adipisicing fugiat labore quis cupidatat commodo dolor enim dolore aliqua sunt. Eiusmod id in laborum Lorem nisi est. Magna enim sint veniam do pariatur duis et excepteur reprehenderit excepteur.
+            </p>
+            <p>
+                Reprehenderit cupidatat duis deserunt incididunt ex voluptate. Dolor laboris reprehenderit ullamco do minim laborum qui minim. Dolor Lorem velit pariatur irure duis Lorem est sit exercitation ex enim. Quis veniam occaecat qui voluptate anim enim qui cillum
+                incididunt est enim. Cupidatat deserunt dolor id adipisicing fugiat labore quis cupidatat commodo dolor enim dolore aliqua sunt. Eiusmod id in laborum Lorem nisi est. Magna enim sint veniam do pariatur duis et excepteur reprehenderit excepteur.
+            </p>
+
+            <p>
+                Reprehenderit cupidatat duis deserunt incididunt ex voluptate. Dolor laboris reprehenderit ullamco do minim laborum qui minim. Dolor Lorem velit pariatur irure duis Lorem est sit exercitation ex enim. Quis veniam occaecat qui voluptate anim enim qui cillum
+                incididunt est enim. Cupidatat deserunt dolor id adipisicing fugiat labore quis cupidatat commodo dolor enim dolore aliqua sunt. Eiusmod id in laborum Lorem nisi est. Magna enim sint veniam do pariatur duis et excepteur reprehenderit excepteur.
+            </p>
+            <p>
+                Reprehenderit cupidatat duis deserunt incididunt ex voluptate. Dolor laboris reprehenderit ullamco do minim laborum qui minim. Dolor Lorem velit pariatur irure duis Lorem est sit exercitation ex enim. Quis veniam occaecat qui voluptate anim enim qui cillum
+                incididunt est enim. Cupidatat deserunt dolor id adipisicing fugiat labore quis cupidatat commodo dolor enim dolore aliqua sunt. Eiusmod id in laborum Lorem nisi est. Magna enim sint veniam do pariatur duis et excepteur reprehenderit excepteur.
+            </p>
+            <button name="button" on-tap="{{onDemoClose}};">close</button>
+        </template>
+        <script>
+            Polymer('demo-content', {
+                onDemoClose: function(){
+                    this.fire('demo-close');
+                }
+            });
+        </script>
+    </polymer-element>
+
+
+
+
+
+
+
+    <button data-type="takeover">takeover</button>
+    <akyral-dialog type="takeover"><demo-content></demo-content></akyral-dialog>
+    <hr>
+    <button data-type="lift">lift</button>
+    <akyral-dialog type="lift"><demo-content></demo-content></akyral-dialog>
+    <button data-type="lift" data-position="top">lift-from-top</button>
+    <button data-type="lift" data-position="right">lift-from-right</button>
+    <button data-type="lift" data-position="bottom">lift-from-bottom</button>
+    <button data-type="lift" data-position="left">lift-from-left</button>
+    <akyral-dialog type="lift" position="top"><demo-content></demo-content></akyral-dialog>
+    <akyral-dialog type="lift" position="right"><demo-content></demo-content></akyral-dialog>
+    <akyral-dialog type="lift" position="bottom"><demo-content></demo-content></akyral-dialog>
+    <akyral-dialog type="lift" position="left"><demo-content></demo-content></akyral-dialog>
+    <hr>
+    <button data-type="drop">drop</button>
+    <button data-type="drop" data-position="top">drop-from-top</button>
+    <button data-type="drop" data-position="right">drop-from-right</button>
+    <button data-type="drop" data-position="bottom">drop-from-bottom</button>
+    <button data-type="drop" data-position="left">drop-from-left</button>
+    <akyral-dialog type="drop" position="top"><demo-content></demo-content></akyral-dialog>
+    <akyral-dialog type="drop" position="right"><demo-content></demo-content></akyral-dialog>
+    <akyral-dialog type="drop" position="bottom"><demo-content></demo-content></akyral-dialog>
+    <akyral-dialog type="drop" position="left"><demo-content></demo-content></akyral-dialog>
+    <hr>
+    <button data-type="flip" data-position="top">flip-to-top</button>
+    <button data-type="flip" data-position="right">flip-to-right</button>
+    <button data-type="flip" data-position="bottom">flip-to-bottom</button>
+    <button data-type="flip" data-position="left">flip-to-left</button>
+    <akyral-dialog type="flip" position="top"><demo-content></demo-content></akyral-dialog>
+    <akyral-dialog type="flip" position="right"><demo-content></demo-content></akyral-dialog>
+    <akyral-dialog type="flip" position="bottom"><demo-content></demo-content></akyral-dialog>
+    <akyral-dialog type="flip" position="left"><demo-content></demo-content></akyral-dialog>
+    <hr>
+    <button data-type="slide" data-position="top">slide && slide-from-top</button>
+    <button data-type="slide" data-position="right">slide-from-right</button>
+    <button data-type="slide" data-position="bottom">slide-from-bottom</button>
+    <button data-type="slide" data-position="left">slide-from-left</button>
+    <akyral-dialog type="slide" position="top"><demo-content></demo-content></akyral-dialog>
+    <akyral-dialog type="slide" position="right"><demo-content></demo-content></akyral-dialog>
+    <akyral-dialog type="slide" position="bottom"><demo-content></demo-content></akyral-dialog>
+    <akyral-dialog type="slide" position="left"><demo-content></demo-content></akyral-dialog>
+    <hr>
+    <button data-type="slide" data-position="top" data-pinned="top">slide-from-top-pinned-top</button>
+    <button data-type="slide" data-position="right" data-pinned="right">slide-from-right-pinned-right</button>
+    <button data-type="slide" data-position="bottom" data-pinned="bottom">slide-from-bottom-pinned-bottom</button>
+    <button data-type="slide" data-position="left" data-pinned="left">slide-from-left-pinned-left</button>
+    <akyral-dialog type="slide" position="top" pinned="top"><demo-content></demo-content></akyral-dialog>
+    <akyral-dialog type="slide" position="right" pinned="right"><demo-content></demo-content></akyral-dialog>
+    <akyral-dialog type="slide" position="bottom" pinned="bottom"><demo-content></demo-content></akyral-dialog>
+    <akyral-dialog type="slide" position="left" pinned="left"><demo-content></demo-content></akyral-dialog>
+    <hr>
+    <button data-type="swing" data-position="top">swing && swing-from-top</button>
+    <button data-type="swing" data-position="right">swing-from-right</button>
+    <button data-type="swing" data-position="bottom">swing-from-bottom</button>
+    <button data-type="swing" data-position="left">swing-from-left</button>
+    <akyral-dialog type="swing" position="top"><demo-content></demo-content></akyral-dialog>
+    <akyral-dialog type="swing" position="right"><demo-content></demo-content></akyral-dialog>
+    <akyral-dialog type="swing" position="bottom"><demo-content></demo-content></akyral-dialog>
+    <akyral-dialog type="swing" position="left"><demo-content></demo-content></akyral-dialog>
+    <hr>
+    <button data-type="swing" data-position="top" data-pinned="top">swing-from-top-pinned-top</button>
+    <button data-type="swing" data-position="right" data-pinned="right">swing-from-right-pinned-right</button>
+    <button data-type="swing" data-position="bottom" data-pinned="bottom">swing-from-bottom-pinned-bottom</button>
+    <button data-type="swing" data-position="left" data-pinned="left">swing-from-left-pinned-left</button>
+    <akyral-dialog type="swing" position="top" pinned="top"><demo-content></demo-content></akyral-dialog>
+    <akyral-dialog type="swing" position="right" pinned="right"><demo-content></demo-content></akyral-dialog>
+    <akyral-dialog type="swing" position="bottom" pinned="bottom"><demo-content></demo-content></akyral-dialog>
+    <akyral-dialog type="swing" position="left" pinned="left"><demo-content></demo-content></akyral-dialog>
+
+
+    <script charset="utf-8">
+        (function() {
+
+            //   [].forEach.call(document.querySelectorAll('button[data-type]'), function(el){
+            //
+            //     el.addEventListener('click', function(e){
+            //         var dialog = document.querySelector('akyral-dialog'),
+            //             type = el.getAttribute('data-type'),
+            //             position = el.getAttribute('data-position') || undefined,
+            //             pinned = el.getAttribute('data-pinned') || undefined,
+            //             clone = dialog.cloneNode(true);
+            //
+            //         clone.setAttribute('type',type);
+            //         clone.setAttribute('position',position);
+            //         clone.setAttribute('pinned',pinned);
+            //         dialog.parentNode.insertBefore(clone, dialog);
+            //         dialog.parentNode.removeChild(dialog);
+            //
+            //         setTimeout(function(){
+            //
+            //             console.log(clone)
+            //             clone.toggle();
+            //         }, 100);
+            //
+            //     });
+
+            // });
+
+
+
+            [].forEach.call(document.querySelectorAll('demo-content'), function(demo){
+                demo.addEventListener('demo-close', function(){
+                    demo.parentNode.toggle();
+                });
+            });
+
+
+
+            [].forEach.call(document.querySelectorAll('button[data-type]'), function(button) {
+                button.addEventListener('click', function() {
+                    var query = [];
+
+                    query.push('[type="'+button.getAttribute('data-type')+'"]');
+
+                    if(button.hasAttribute('data-position')){
+                        query.push('[position="'+button.getAttribute('data-position')+'"]');
+                    }
+
+                    if(button.hasAttribute('data-pinned')){
+                        query.push('[pinned="'+button.getAttribute('data-pinned')+'"]');
+                    }
+
+                    console.log('akyral-dialog'+query.join(''))
+
+                    document.querySelector('akyral-dialog'+query.join('')).toggle();
+                });
+            });
+
+
+        }());
+    </script>
+
+</body>
+
+</html>

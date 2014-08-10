@@ -1,0 +1,9 @@
+{
+  "name": "ui-modal",
+  "version": "0.0.0",
+  "keywords": "seed, polymer, web-components",
+  "main": "ui-modal.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.3.1"
+  }
+}

@@ -1,0 +1,167 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+A responsive dialog/modal element.
+
+##Responsive Breakpoints
+`akyral-dialog` is currently built using the following breakpoints.
+
+<pre>
+    <code>
+         0        480px         720px        944px        1264px    1920px
+         ├─────────┼─────────────┼─────────────┼───────────┼─────────┼─────────>
+         ·  phone  ·   phablet   ·   tablet    ·  desktop  ·   hd    ·
+    </code>
+</pre>
+
+## Using the element
+Using the element is as simple as defining a `akyral-dialog` element and nesting
+all your content within that tag.
+
+Example:
+
+    <akyral-dialog></akyral-dialog>
+
+
+## Setting a type
+Setting a type allows you to define a visual effect to the dialog. You can
+choose from the following types: `drop`, `flip`, `lift`, `slide`, `swing` and
+`takeover`.
+
+Example:
+
+    <akyral-dialog type="flip"></akyral-dialog>
+
+## Setting a position
+Setting a position will set the visual effect's starting position. You can
+choose from the following position: `top`, `left`, `bottom`, and `right`.
+A dialog with a type of `takeover` is not affected by position.
+
+Example:
+
+    <akyral-dialog type="slide" position="top"></akyral-dialog>
+
+
+## Setting a pinned location
+Setting the `pinned` attribute will pin the element to that side on the viewport.
+Only types of `swing` and `slide` support the pinned attribute.
+
+Example:
+
+    <akyral-dialog type="slide" position="top" pinned="top"></akyral-dialog>
+
+@element akyral-dialog
+@blurb Web component which allows for easy modal creation
+@status alpha
+@homepage http://filaraujo.github.io/akyral-dialog
+@demo http://filaraujo.github.io/akyral-dialog/components/akyral-dialog/demo
+-->
+
+<polymer-element name="akyral-dialog" attributes="type position pinned shown">
+    <template>
+        <link rel="stylesheet" href="akyral-dialog.css" />
+
+        <div id="modal" type="{{type}}" position="{{position}}" pinned="{{pinned}}">
+            <content></content>
+        </div>
+
+    </template>
+    <script>
+        (function(){
+            var authors = ['Filipe Araujo'];
+
+            Polymer('akyral-dialog', {
+
+                /**
+                 * The `author` attribute defines the initial author, setting
+                 * this value will add another author
+                 *
+                 * @attribute author
+                 * @type string
+                 * @default 'Filipe Araujo'
+                 */
+                set author(name){
+                    if(authors.indexOf(name) > 0){
+                        return;
+                    }
+                    authors.push(name);
+                },
+
+                get author(){
+                    return authors;
+                },
+
+                publish: {
+                    /**
+                     * The `pinned` will pin the element to that side on the
+                     * viewport.  Only supported by elements with type of
+                     * `slide` and `swing`
+                     *
+                     * @attribute pinned
+                     * @type string
+                     * @default null
+                     */
+                    pinned: { reflect: true },
+
+                    /**
+                     * The `position` attribute defines the visual effect's
+                     * starting position
+                     *
+                     * @attribute position
+                     * @type string
+                     * @default null
+                     */
+                    position: { reflect: true },
+
+                    /**
+                     * The `shown` attribute manages the visibility state of the
+                     * dialog
+                     *
+                     * @attribute shown
+                     * @type boolean
+                     * @default false
+                     */
+
+                    shown: { reflect: true, value: false },
+
+                    /**
+                     * The `type` attribute defines the visual effect of the
+                     * dialog. It defaults to `takeover` if it is not defined
+                     *
+                     * @attribute type
+                     * @type string
+                     * @default 'takeover'
+                     */
+                    type: { value: 'takeover' }
+                },
+
+                /**
+                * The `close` method will close the dialog
+                *
+                * @method close
+                */
+                close: function(){
+                    this.shown = false;
+                },
+
+                /**
+                * The `show` method will open the dialog
+                *
+                * @method show
+                */
+                show: function(){
+                    this.shown = true;
+                },
+
+                /**
+                * The `toggle` method will open and close the dialog
+                *
+                * @method toggle
+                */
+                toggle: function(){
+                    this.shown = !this.shown;
+                }
+            });
+        }());
+    </script>
+</polymer-element>
