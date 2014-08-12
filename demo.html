@@ -3,7 +3,7 @@
 
 <head>
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-    <title>ui-dialog Demo</title>
+    <title>akyral-dialog Demo</title>
 
     <script src="../platform/platform.js"></script>
     <link rel="import" href="akyral-dialog.html">
@@ -12,7 +12,7 @@
 
 <body unresolved>
 
-    <p>An `ui-dialog` looks like this:</p>
+    <p>An `akyral-dialog` looks like this:</p>
 
 
     <polymer-element name="demo-content" attributes="">
@@ -129,39 +129,11 @@
     <script charset="utf-8">
         (function() {
 
-            //   [].forEach.call(document.querySelectorAll('button[data-type]'), function(el){
-            //
-            //     el.addEventListener('click', function(e){
-            //         var dialog = document.querySelector('akyral-dialog'),
-            //             type = el.getAttribute('data-type'),
-            //             position = el.getAttribute('data-position') || undefined,
-            //             pinned = el.getAttribute('data-pinned') || undefined,
-            //             clone = dialog.cloneNode(true);
-            //
-            //         clone.setAttribute('type',type);
-            //         clone.setAttribute('position',position);
-            //         clone.setAttribute('pinned',pinned);
-            //         dialog.parentNode.insertBefore(clone, dialog);
-            //         dialog.parentNode.removeChild(dialog);
-            //
-            //         setTimeout(function(){
-            //
-            //             console.log(clone)
-            //             clone.toggle();
-            //         }, 100);
-            //
-            //     });
-
-            // });
-
-
-
             [].forEach.call(document.querySelectorAll('demo-content'), function(demo){
                 demo.addEventListener('demo-close', function(){
                     demo.parentNode.toggle();
                 });
             });
-
 
 
             [].forEach.call(document.querySelectorAll('button[data-type]'), function(button) {
@@ -178,12 +150,9 @@
                         query.push('[pinned="'+button.getAttribute('data-pinned')+'"]');
                     }
 
-                    console.log('akyral-dialog'+query.join(''))
-
                     document.querySelector('akyral-dialog'+query.join('')).toggle();
                 });
             });
-
 
         }());
     </script>
