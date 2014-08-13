@@ -6,7 +6,7 @@ A responsive dialog/modal element built on Polymer
 
 
 ##Documentation
-You can find documentation [here!](http://filaraujo.github.io/akyral-dialog/components/akyral-dialog#documentation)
+You can find documentation [here!](http://filaraujo.github.io/akyral.io/dialog.html#documentation)
 
 
 ##Demo
