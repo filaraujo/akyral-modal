@@ -6,11 +6,11 @@ A responsive dialog/modal element built on Polymer
 
 
 ##Documentation
-You can find documentation [here!](http://filaraujo.github.io/akyral.io/dialog.html#documentation)
+You can find documentation [here!](http://filaraujo.github.io/akyral.io/dialog/index.html#documentation)
 
 
 ##Demo
-Check out the [demo!](http://filaraujo.github.io/akyral.io/dialog.html)
+Check out the [demo!](http://filaraujo.github.io/akyral.io/dialog/index.html)
 
 
 [![Analytics](https://ga-beacon.appspot.com/UA-46802115-1/akyral-dialog/README)](https://github.com/igrigorik/ga-beacon)
