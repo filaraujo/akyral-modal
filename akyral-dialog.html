@@ -101,7 +101,10 @@ Example:
                      * @type string
                      * @default null
                      */
-                    pinned: { reflect: true },
+                    pinned: {
+                        reflect: true,
+                        value: undefined
+                    },
 
                     /**
                      * The `position` attribute defines the visual effect's
@@ -111,7 +114,10 @@ Example:
                      * @type string
                      * @default null
                      */
-                    position: { reflect: true },
+                    position: {
+                        reflect: true,
+                        value: undefined
+                    },
 
                     /**
                      * The `shown` attribute manages the visibility state of the
@@ -122,7 +128,10 @@ Example:
                      * @default false
                      */
 
-                    shown: { reflect: true, value: false },
+                    shown: {
+                        reflect: true,
+                        value: false
+                    },
 
                     /**
                      * The `type` attribute defines the visual effect of the
@@ -132,7 +141,7 @@ Example:
                      * @type string
                      * @default 'takeover'
                      */
-                    type: { value: 'takeover' }
+                    type: 'takeover'
                 },
 
                 /**
