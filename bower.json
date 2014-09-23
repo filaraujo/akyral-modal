@@ -7,8 +7,9 @@
   "description": "A responsive dialog/modal element built on Polymer",
   "keywords": [
     "akyral",
-    "layout",
-    "drawer",
+    "dialog",
+    "modal",
+    "popup",
     "polymer",
     "web-components"
   ],
