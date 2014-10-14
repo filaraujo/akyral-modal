@@ -4,7 +4,15 @@ $overlayColor: #333;
 $modalMargin: 16px;
 $modalMarginViewportUnit: 5vmin;
 
+
 :host {
+    display: none;
+}
+:host([content]) {
+    display: block;
+}
+
+:host([core]) {
     align-items: center;
     background: $overlayColor;
     bottom: 0;
@@ -25,31 +33,32 @@ $modalMarginViewportUnit: 5vmin;
     z-index: 100;
 }
 
-:host([shown]){
+:host([core][shown]){
     pointer-events: all;
     opacity: 1;
     transition: opacity .3s cubic-bezier(0.0, 0.0, 0.2, 1);
 }
 
-:host([type="takeover"]){
+:host([core][type="takeover"]){
     background: #fff;
 }
 
-:host([pinned="top"]){
+:host([core][pinned="top"]){
     align-items: flex-start;
 }
 
-:host([pinned="left"]){
+:host([core][pinned="left"]){
     justify-content: flex-start;
 }
 
-:host([pinned="bottom"]){
+:host([core][pinned="bottom"]){
     align-items: flex-end;
 }
 
-:host([pinned="right"]){
+:host([core][pinned="right"]){
     justify-content: flex-end;
 }
+
 
 #modal {
     background: #fff;

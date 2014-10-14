@@ -27,5 +27,9 @@
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#~0.4.0"
+  },
+  "devDependencies": {
+    "sinon": "http://sinonjs.org/releases/sinon-1.10.3.js",
+    "web-component-tester": "Polymer/web-component-tester#~1.1.2"
   }
 }
