@@ -217,7 +217,6 @@ Example:
                 */
                 close: function(){
                     this.shown = false;
-                    baseEl.shown = false;
                     targetElParent.appendChild( targetEl );
                     targetEl.removeAttribute('content');
 
@@ -234,13 +233,13 @@ Example:
                     targetEl.setAttribute('content','');
                     targetElParent = this.parentNode || document.body;
 
-                    baseEl.setAttribute('type', targetEl.type);
-                    baseEl.pinned = targetEl.pinned;
-                    baseEl.position = targetEl.position;
-                    // defect .type does not reflect
+                    baseEl.bind( 'pinned', new PathObserver( this, 'pinned' ) );
+                    baseEl.bind( 'position', new PathObserver( this, 'position' ) );
+                    baseEl.bind( 'shown', new PathObserver( this, 'shown' ) );
+                    baseEl.bind( 'type', new PathObserver( this, 'type' ) );
+
                     baseEl.appendChild( targetEl );
                     this.shown = true;
-                    baseEl.shown = true;
 
                     this.fire('dialog-shown', { dialog: this });
                 },
