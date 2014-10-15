@@ -15,15 +15,52 @@ A responsive dialog/modal element.
 </pre>
 
 ## Using the element
-Using the element is as simple as defining a `akyral-dialog` element and nesting
-all your content within that tag.
+### Nested content
+Using the element is as simple as defining a `akyral-dialog` element and nesting content
 
 Example:
 
-    <akyral-dialog></akyral-dialog>
+    <akyral-dialog>
+        I am content...
+    </akyral-dialog>
 
 
-## Setting a type
+### Extending
+You can extend `akyral-dialog` directly. Note the shadow element that will transfer akyral-dialog
+shadow DOM into the new element
+
+Example:
+
+    <polymer-element name="new-dialog" extends="akyral-dialog">
+        <template>
+            <shadow></shadow>
+        </template>
+        <script>
+            Polymer('new-dialog', {});
+        </script>
+    </polymer-element>
+
+
+### Setting `.contents`
+You can also define an empty `akryal-dialog` element and set the contents at any point
+
+Example:
+
+    <akyral-dialog id="dialog"></akyral-dialog>
+
+    <div id="dialog-contents">
+        I am content...
+    </div>
+
+    <script>
+        var dialog = document.querySelector('#dialog'),
+            content = document.querySelector('#dialog-content');
+
+        dialog.contents = content;
+    </script>
+
+
+## Type
 Setting a type allows you to define a visual effect to the dialog. You can
 choose from the following types: `drop`, `flip`, `lift`, `slide`, `swing` and
 `takeover`.
@@ -32,7 +69,7 @@ Example:
 
     <akyral-dialog type="flip"></akyral-dialog>
 
-## Setting a position
+## Position
 Setting a position will set the visual effect's starting position. You can
 choose from the following position: `top`, `left`, `bottom`, and `right`.
 A dialog with a type of `takeover` is not affected by position.
@@ -42,7 +79,7 @@ Example:
     <akyral-dialog type="slide" position="top"></akyral-dialog>
 
 
-## Setting a pinned location
+## Pinned location
 Setting the `pinned` attribute will pin the element to that side on the viewport.
 This will override the position attribute. Only types of `swing` and `slide` support the pinned attribute.
 
