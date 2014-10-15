@@ -57,8 +57,9 @@ Example:
 @demo http://filaraujo.github.io/akyral-dialog/components/akyral-dialog/demo
 -->
 
-<polymer-element name="akyral-dialog" attributes="type position pinned shown">
+<polymer-element name="akyral-dialog">
     <template>
+
         <link rel="stylesheet" href="akyral-dialog.css" />
 
         <div id="modal" type="{{type}}" position="{{position}}" pinned="{{pinned}}">
@@ -68,7 +69,31 @@ Example:
     </template>
     <script>
         (function(){
-            var authors = ['Filipe Araujo'];
+            var authors = ['Filipe Araujo'],
+
+                targetEl,
+
+                targetElParent,
+
+                baseEl = document.createElement('akyral-dialog');
+
+
+            // inject core dialog to page
+            baseEl.setAttribute('core','');
+            baseEl.show = baseEl.toggle = baseEl.close = warnApi;
+            document.body.insertBefore(baseEl, document.body.firstChild);
+
+            /**
+              * Attempting to call methods against the instance managed `akyral-dialog` will result
+              * in calling `warnApi` instead.
+              *
+              * @method warnApi
+              * @returns object
+              * @private
+              */
+            function warnApi(){
+                console.error('akyral-dialog :: You can\'t interact with this element directly');
+            }
 
             Polymer('akyral-dialog', {
 
@@ -84,7 +109,7 @@ Example:
                     if(authors.indexOf(name) > 0){
                         return;
                     }
-                    authors.push(name);
+                    authors = [].concat.apply(authors, [name]);
                 },
 
                 get author(){
@@ -92,6 +117,7 @@ Example:
                 },
 
                 publish: {
+
                     /**
                      * The `pinned` will pin the element to that side on the
                      * viewport.  Only supported by elements with type of
@@ -141,7 +167,10 @@ Example:
                      * @type string
                      * @default 'takeover'
                      */
-                    type: 'takeover'
+                    type: {
+                        reflect: true,
+                        value: 'takeover'
+                    }
                 },
 
                 /**
@@ -151,6 +180,8 @@ Example:
                 */
                 close: function(){
                     this.shown = false;
+                    baseEl.shown = false;
+                    targetElParent.appendChild( targetEl );
                 },
 
                 /**
@@ -159,7 +190,27 @@ Example:
                 * @method show
                 */
                 show: function(){
+                    targetEl = this;
+                    targetEl.setAttribute('content','');
+                    targetElParent = this.parentNode || document.body;
+
+                    baseEl.setAttribute('type', targetEl.type);
+                    baseEl.pinned = targetEl.pinned;
+                    baseEl.position = targetEl.position;
+                    // defect .type does not reflect
+                    baseEl.appendChild( targetEl );
                     this.shown = true;
+                    baseEl.shown = true;
+                },
+
+                /**
+                * The `contentsChanged` method will inject the content into the modal
+                *
+                * @method contentsChanged
+                */
+                contentsChanged: function(){
+                    this.appendChild(this.contents);
+                    this.contents.eventController = this.element.findController(this.contents);
                 },
 
                 /**
@@ -168,7 +219,7 @@ Example:
                 * @method toggle
                 */
                 toggle: function(){
-                    this.shown = !this.shown;
+                    this[ this.shown ? 'close' : 'show' ]();
                 }
             });
         }());

@@ -1,0 +1,199 @@
+<!doctype html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+        <title>akyral-dialog</title>
+
+        <script src="../../platform/platform.js"></script>
+        <script src="../../web-component-tester/browser.js"></script>
+        <script src="../../sinon/index.js"></script>
+
+        <link rel="import" href="../akyral-dialog.html">
+    </head>
+
+    <body>
+
+        <akyral-dialog id="diag"></akyral-dialog>
+        <akyral-dialog id="diag-with-attributes" position="left" pinned="right"></akyral-dialog>
+
+        <script>
+            var diagEl = document.querySelector('#diag'),
+                diagWithAttrsEl = document.querySelector('#diag-with-attributes');
+
+            suite('<akyral-dialog>', function() {
+
+                suite('element with no attributes', function() {
+                    test('should define the "author" property', function() {
+                        assert.equal(diagEl.author, 'Filipe Araujo');
+                    });
+
+                    test('should define the "pinned" property default to undefined', function() {
+                        assert.isUndefined(diagEl.pinned);
+                    });
+
+                    test('should define the "position" property default to undefined', function() {
+                        assert.isUndefined(diagEl.position);
+                    });
+
+                    test('should define the "shown" property default to false', function() {
+                        assert.isFalse(diagEl.shown);
+                    });
+
+                    test('should define the "type" property default to "takeover"', function() {
+                        assert.equal(diagEl.type, 'takeover');
+                    });
+
+                    test('should define a "toggle" method', function() {
+                        assert.isFunction(diagEl.toggle);
+                    });
+
+                    test('should define a "show" method', function() {
+                        assert.isFunction(diagEl.show);
+                    });
+
+                    test('should define a "close" method', function() {
+                        assert.isFunction(diagEl.close);
+                    });
+
+                });
+
+                suite('adding an author', function() {
+                    var el = diagEl.cloneNode();
+
+                    test('should allow for adding a single author', function() {
+                        el.author = 'New Author';
+                        assert.include(el.author, 'New Author');
+                        assert.lengthOf(el.author, 2);
+                    });
+
+                    test('should allow for adding an multiple authors', function() {
+                        el.author = ['New Author 2', 'New Author 3'];
+                        assert.include(el.author, 'New Author 2');
+                        assert.include(el.author, 'New Author 3');
+                        assert.lengthOf(el.author, 4);
+
+
+                        assert.include(el.author, 'Filipe Araujo');
+                    });
+
+                    test('should still include the original authors', function() {
+                        assert.include(el.author, 'Filipe Araujo');
+                    });
+                });
+
+
+                suite('setting the pinned', function() {
+                    var el = diagEl.cloneNode();
+
+                    test('should reflect the property to the attribute', function() {
+                        el.pinned = 'top';
+                        assert.equal(el.getAttribute('pinned'), 'top');
+                    });
+                });
+
+                suite('setting the position', function() {
+                    var el = diagEl.cloneNode();
+
+                    test('should reflect the property to the attribute', function() {
+                        el.position = 'top';
+                        assert.equal(el.getAttribute('position'), 'top');
+                    });
+                });
+
+                suite('#show: when showing', function(){
+                    var el = diagWithAttrsEl.cloneNode(),
+                        coreEl = document.querySelector('akyral-dialog[core]');
+
+                    test('should set the "shown" property to true', function(done) {
+                        el.show();
+
+                        asyncPlatformFlush(function() {
+                            assert.isTrue(el.shown);
+                            done();
+                        });
+                    });
+
+                    test('should add the "shown" attribute', function() {
+                        assert.isTrue(el.hasAttribute('shown'));
+                    });
+
+                    test('should set the "shown" property on the core dialog to true', function() {
+                        assert.isTrue(coreEl.shown);
+                    });
+
+                    test('should add the "shown" attribute to the core dialog', function() {
+                        assert.isTrue(el.hasAttribute('shown'));
+                    });
+
+                    test('should transfer "position" and "pinned" attributes to the core', function() {
+                        assert.equal(el.getAttribute('position'), 'left');
+                        assert.equal(el.getAttribute('pinned'), 'right');
+                    });
+
+                    test('should move the dialog into the core dialog', function() {
+                        assert.isTrue(el.parentNode === coreEl);
+                    });
+                });
+
+
+
+                suite('#close: when closing', function() {
+                    var el = diagWithAttrsEl.cloneNode(),
+                        coreEl = document.querySelector('akyral-dialog[core]');
+
+                    test('should set the "shown" property to false', function(done) {
+                        el.show();
+
+                        // wait for open it
+                        asyncPlatformFlush(function() {
+                            el.close();
+
+                            // wait for close it
+                            asyncPlatformFlush(function() {
+                                assert.isFalse(el.shown);
+                                done();
+                            });
+                        });
+                    });
+
+                    test('should remove the "shown" attribute', function() {
+                        assert.isFalse(el.hasAttribute('shown'));
+                    });
+
+                    test('should set the "shown" property on the core dialog to false', function() {
+                        assert.isFalse(coreEl.shown);
+                    });
+
+                    test('should remove the "shown" attribute from the core dialog', function() {
+                        assert.isFalse(coreEl.hasAttribute('shown'));
+                    });
+
+                    test('should move the dialog out of the core dialog', function() {
+                        assert.isTrue(el.parentNode !== coreEl);
+                    });
+                });
+
+                suite('#toggle: when toggling', function() {
+                    var el = diagEl.cloneNode();
+
+                    test('should call the show method if the dialog is hidden', function() {
+                        var spy = sinon.spy(el, 'show');
+
+                        el.toggle();
+                        assert.isTrue(spy.called);
+                    });
+
+                    test('should call the close method if the dialog is visible', function() {
+                        var spy = sinon.spy(el, 'close');
+
+                        el.toggle();
+                        assert.isTrue(spy.called);
+                    });
+                });
+            });
+        </script>
+    </body>
+
+</html>
