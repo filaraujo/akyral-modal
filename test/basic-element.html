@@ -57,6 +57,13 @@
                         assert.isFunction(diagEl.close);
                     });
 
+                    test('should have a reference to the inner modal', function() {
+                        assert.isDefined(diagEl.$.modal);
+                    });
+
+                    test('should have a reference to the inner content', function() {
+                        assert.isDefined(diagEl.$.content);
+                    });
                 });
 
                 suite('adding an author', function() {
@@ -135,6 +142,20 @@
                     test('should move the dialog into the core dialog', function() {
                         assert.isTrue(el.parentNode === coreEl);
                     });
+
+                    test('should fire a "dialog-shown" event after opening', function(done) {
+                        var el = diagWithAttrsEl.cloneNode();
+
+                        asyncPlatformFlush(function() {
+                            el.show();
+                        });
+
+                        el.addEventListener('dialog-shown', function(e){
+                            assert.isDefined(event);
+                            assert.equal(event.type, 'dialog-shown');
+                            done();
+                        });
+                    });
                 });
 
 
@@ -173,6 +194,25 @@
                     test('should move the dialog out of the core dialog', function() {
                         assert.isTrue(el.parentNode !== coreEl);
                     });
+
+                    test('should fire a "dialog-closed" event after closing', function(done) {
+                        var el = diagWithAttrsEl.cloneNode();
+
+                        asyncPlatformFlush(function() {
+                            el.show();
+
+                            asyncPlatformFlush(function() {
+                                el.close();
+                            });
+                        });
+
+                        el.addEventListener('dialog-closed', function(e){
+                            assert.isDefined(event);
+                            assert.equal(event.type, 'dialog-closed');
+                            done();
+                        });
+                    });
+
                 });
 
                 suite('#toggle: when toggling', function() {

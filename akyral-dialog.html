@@ -100,7 +100,7 @@ Example:
         <link rel="stylesheet" href="akyral-dialog.css" />
 
         <div id="modal" type="{{type}}" position="{{position}}" pinned="{{pinned}}">
-            <content></content>
+            <content id="content"></content>
         </div>
 
     </template>
@@ -220,6 +220,8 @@ Example:
                     baseEl.shown = false;
                     targetElParent.appendChild( targetEl );
                     targetEl.removeAttribute('content');
+
+                    this.fire('dialog-closed', { dialog: this });
                 },
 
                 /**
@@ -239,6 +241,8 @@ Example:
                     baseEl.appendChild( targetEl );
                     this.shown = true;
                     baseEl.shown = true;
+
+                    this.fire('dialog-shown', { dialog: this });
                 },
 
                 /**
