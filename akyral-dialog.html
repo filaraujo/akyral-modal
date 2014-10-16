@@ -1,4 +1,5 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../core-a11y-keys/core-a11y-keys.html">
 
 <!--
 A responsive dialog/modal element.
@@ -99,6 +100,18 @@ Example:
 
         <link rel="stylesheet" href="akyral-dialog.css" />
 
+        <core-a11y-keys
+            target="{{}}"
+            keys="esc"
+            on-keys-pressed="{{ close }}">
+        </core-a11y-keys>
+
+        <core-a11y-keys
+            target="{{}}"
+            keys="tab"
+            on-keys-pressed="{{ setFocus }}">
+        </core-a11y-keys>
+
         <div id="modal" type="{{type}}" position="{{position}}" pinned="{{pinned}}">
             <content id="content"></content>
         </div>
@@ -112,6 +125,10 @@ Example:
 
                 targetElParent,
 
+                lastFocus,
+
+                focusableSelectors = 'a[href], button, input, textarea, select',
+
                 baseEl = document.createElement('akyral-dialog');
 
 
@@ -121,11 +138,30 @@ Example:
             document.body.insertBefore(baseEl, document.body.firstChild);
 
             /**
+              * The `setFocus` will query the contents of the dialog for any element that is
+              * focusable. It will determine the focused index and choose the next appropriate
+              * element to focus. It will stay within the modal to prevent from leaving.
+              *
+              * @method setFocus
+              * @private
+              */
+            function setFocus(e){
+                var nodes = this.querySelectorAll(focusableSelectors),
+                    nodesArray = [].slice.call(nodes, 0),
+                    focusedIndex = nodesArray.indexOf(document.activeElement);
+
+                if(focusedIndex === nodesArray.length - 1){
+                    focusedIndex = -1;
+                }
+
+                nodesArray[focusedIndex + 1] && nodesArray[focusedIndex + 1].focus();
+            }
+
+            /**
               * Attempting to call methods against the instance managed `akyral-dialog` will result
               * in calling `warnApi` instead.
               *
               * @method warnApi
-              * @returns object
               * @private
               */
             function warnApi(){
@@ -220,8 +256,11 @@ Example:
                     targetElParent.appendChild( targetEl );
                     targetEl.removeAttribute('content');
 
+                    lastFocus.focus();
                     this.fire('dialog-closed', { dialog: this });
                 },
+
+                setFocus: setFocus,
 
                 /**
                 * The `show` method will open the dialog
@@ -241,6 +280,8 @@ Example:
                     baseEl.appendChild( targetEl );
                     this.shown = true;
 
+                    lastFocus = document.activeElement;
+                    this.setFocus();
                     this.fire('dialog-shown', { dialog: this });
                 },
 

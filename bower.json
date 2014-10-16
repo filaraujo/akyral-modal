@@ -26,7 +26,8 @@
     "tests"
   ],
   "dependencies": {
-    "polymer": "Polymer/polymer#~0.4.0"
+    "polymer": "~0.4.2",
+    "core-a11y-keys": "Polymer/core-a11y-keys#~0.4.2"
   },
   "devDependencies": {
     "sinon": "http://sinonjs.org/releases/sinon-1.10.3.js",

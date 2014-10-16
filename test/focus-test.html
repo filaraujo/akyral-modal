@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+        <title>akyral-dialog</title>
+
+        <script src="../../platform/platform.js"></script>
+        <script src="../../web-component-tester/browser.js"></script>
+        <script src="../../sinon/index.js"></script>
+
+        <link rel="import" href="../akyral-dialog.html">
+    </head>
+
+    <body>
+
+        <akyral-dialog id="diag">
+            <input id="input1" type="text" name="some_name" value="" />
+            <input id="input2" type="text" name="some_name" value="" />
+            <input id="input3" type="text" name="some_name" value="" />
+        </akyral-dialog>
+
+        <script>
+            var diagEl = document.querySelector('#diag'),
+                input1 = document.querySelector('#input1'),
+                input2 = document.querySelector('#input2'),
+                input3 = document.querySelector('#input3');
+
+            suite('<akyral-dialog>', function() {
+
+                suite('when opening', function() {
+                    test('should set the focus to the first focusable element', function(done) {
+
+                        diagEl.show();
+
+                        asyncPlatformFlush(function() {
+                            assert.isTrue(input1 === document.activeElement);
+                            done();
+                        });
+                    });
+
+                    test('TBD: should set the next element when hitting tab key', function() {
+
+                        // var e = new KeyboardEvent("keydown", {
+                        //     bubbles: true,
+                        //     cancelable: true
+                        // });
+                        //
+                        // delete e.keyCode;
+                        // Object.defineProperty(e, 'keyCode', { 'value' : 9 });
+                        //
+                        // diagEl.dispatchEvent(e);
+                        // assert.isTrue(input2 === document.activeElement);
+                    });
+                });
+            });
+        </script>
+    </body>
+
+</html>

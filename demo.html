@@ -2,7 +2,7 @@
 <html>
     <head>
         <script>
-            // window.location = 'http://filaraujo.github.io/akyral.io/dialog/index.html';
+            window.location = 'http://filaraujo.github.io/akyral.io/dialog/index.html';
         </script>
 
         <script src="../platform/platform.js"></script>
@@ -16,7 +16,6 @@
         <button name="button" data-dialog="#testel">extending dialog</button>
 
         <template is="auto-binding">
-            {{ value }}
             <akyral-dialog id="dialog1">
                 value
                 <input type="text" name="some_name" value="{{ value }}"/>
@@ -51,7 +50,7 @@
 
             <button on-click="{{ onClick }}">with .contents</button>
 
-            <div id="content">
+            <div id="content2">
                 i am content
                 <button name="button" on-click="{{ onClose }}">close</button>
             </div>
@@ -59,7 +58,7 @@
           <script>
             Polymer('test-el2', {
                 ready: function(){
-                    this.$.akydia.contents = this.$.content;
+                    this.$.akydia.contents = this.$.content2;
                 },
 
                 onClick: function(){
@@ -89,7 +88,6 @@
             [].forEach.call(buttons, function( button ){
                 button.addEventListener('click', function(){
                     var dialog = button.getAttribute('data-dialog');
-                    console.log(dialog)
                     document.querySelector(dialog).toggle();
                 });
             });
