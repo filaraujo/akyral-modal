@@ -27,8 +27,9 @@ $modalMarginViewportUnit: 5vmin;
     position: fixed;
     right: 0;
     transform: translate3d(0,0,0);
-    transition: opacity .3s .1s cubic-bezier(0.0, 0.0, 0.2, 1);
+    transition: opacity .3s .1s cubic-bezier(0.0, 0.0, 0.2, 1), visibility 0 .4s;
     top: 0;
+    visibility: hidden;
     will-change: opacity;
     z-index: 100;
 }
@@ -37,6 +38,7 @@ $modalMarginViewportUnit: 5vmin;
     pointer-events: all;
     opacity: 1;
     transition: opacity .3s cubic-bezier(0.0, 0.0, 0.2, 1);
+    visibility: visible;
 }
 
 :host([core][type="takeover"]){
