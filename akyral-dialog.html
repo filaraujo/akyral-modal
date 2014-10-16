@@ -108,7 +108,7 @@ Example:
 
         <core-a11y-keys
             target="{{}}"
-            keys="tab"
+            keys="shift+tab tab"
             on-keys-pressed="{{ setFocus }}">
         </core-a11y-keys>
 
@@ -147,14 +147,30 @@ Example:
               */
             function setFocus(e){
                 var nodes = this.querySelectorAll(focusableSelectors),
-                    nodesArray = [].slice.call(nodes, 0),
+                    nodesArray = [].map.call(nodes, function(node){
+                        return window.ShadowDOMPolyfill ? window.unwrap(node) : node;
+                    }),
                     focusedIndex = nodesArray.indexOf(document.activeElement);
+
+
+                if (e && e.detail.shift) {
+                    if(focusedIndex === 0){
+                        focusedIndex = nodesArray.length;
+                    }
+
+                    this.async(function(){
+                        nodesArray[focusedIndex - 1] && nodesArray[focusedIndex - 1].focus();
+                    });
+                    return;
+                }
 
                 if(focusedIndex === nodesArray.length - 1){
                     focusedIndex = -1;
                 }
 
-                nodesArray[focusedIndex + 1] && nodesArray[focusedIndex + 1].focus();
+                this.async(function(){
+                    nodesArray[focusedIndex + 1] && nodesArray[focusedIndex + 1].focus();
+                });
             }
 
             /**
