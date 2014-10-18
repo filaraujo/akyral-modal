@@ -4,25 +4,25 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-        <title>akyral-dialog</title>
+        <title>akyral-modal</title>
 
         <script src="../../platform/platform.js"></script>
         <script src="../../web-component-tester/browser.js"></script>
         <script src="../../sinon/index.js"></script>
 
-        <link rel="import" href="../akyral-dialog.html">
+        <link rel="import" href="../akyral-modal.html">
     </head>
 
     <body>
 
-        <akyral-dialog id="diag"></akyral-dialog>
-        <akyral-dialog id="diag-with-attributes" position="left" pinned="right"></akyral-dialog>
+        <akyral-modal id="diag"></akyral-modal>
+        <akyral-modal id="diag-with-attributes" position="left" pinned="right"></akyral-modal>
 
         <script>
             var diagEl = document.querySelector('#diag'),
                 diagWithAttrsEl = document.querySelector('#diag-with-attributes');
 
-            suite('<akyral-dialog>', function() {
+            suite('<akyral-modal>', function() {
 
                 suite('element with no attributes', function() {
                     test('should define the "author" property', function() {
@@ -111,7 +111,7 @@
 
                 suite('#show: when showing', function(){
                     var el = diagWithAttrsEl.cloneNode(),
-                        coreEl = document.querySelector('akyral-dialog[core]');
+                        coreEl = document.querySelector('akyral-modal[core]');
 
                     test('should set the "shown" property to true', function(done) {
                         el.show();
@@ -126,11 +126,11 @@
                         assert.isTrue(el.hasAttribute('shown'));
                     });
 
-                    test('should set the "shown" property on the core dialog to true', function() {
+                    test('should set the "shown" property on the core modal to true', function() {
                         assert.isTrue(coreEl.shown);
                     });
 
-                    test('should add the "shown" attribute to the core dialog', function() {
+                    test('should add the "shown" attribute to the core modal', function() {
                         assert.isTrue(el.hasAttribute('shown'));
                     });
 
@@ -139,20 +139,20 @@
                         assert.equal(el.getAttribute('pinned'), 'right');
                     });
 
-                    test('should move the dialog into the core dialog', function() {
+                    test('should move the modal into the core modal', function() {
                         assert.isTrue(el.parentNode === coreEl);
                     });
 
-                    test('should fire a "dialog-shown" event after opening', function(done) {
+                    test('should fire a "modal-shown" event after opening', function(done) {
                         var el = diagWithAttrsEl.cloneNode();
 
                         asyncPlatformFlush(function() {
                             el.show();
                         });
 
-                        el.addEventListener('dialog-shown', function(e){
+                        el.addEventListener('modal-shown', function(e){
                             assert.isDefined(event);
-                            assert.equal(event.type, 'dialog-shown');
+                            assert.equal(event.type, 'modal-shown');
                             done();
                         });
                     });
@@ -162,7 +162,7 @@
 
                 suite('#close: when closing', function() {
                     var el = diagWithAttrsEl.cloneNode(),
-                        coreEl = document.querySelector('akyral-dialog[core]');
+                        coreEl = document.querySelector('akyral-modal[core]');
 
                     test('should set the "shown" property to false', function(done) {
                         el.show();
@@ -183,19 +183,22 @@
                         assert.isFalse(el.hasAttribute('shown'));
                     });
 
-                    test('should set the "shown" property on the core dialog to false', function() {
+                    test('should set the "shown" property on the core modal to false', function() {
                         assert.isFalse(coreEl.shown);
                     });
 
-                    test('should remove the "shown" attribute from the core dialog', function() {
+                    test('should remove the "shown" attribute from the core modal', function() {
                         assert.isFalse(coreEl.hasAttribute('shown'));
                     });
 
-                    test('should move the dialog out of the core dialog', function() {
-                        assert.isTrue(el.parentNode !== coreEl);
+                    test('should move the modal out of the core modal', function(done) {
+                        setTimeout(function(){
+                            assert.isTrue(el.parentNode !== coreEl);
+                            done();
+                        }, 200);
                     });
 
-                    test('should fire a "dialog-closed" event after closing', function(done) {
+                    test('should fire a "modal-closed" event after closing', function(done) {
                         var el = diagWithAttrsEl.cloneNode();
 
                         asyncPlatformFlush(function() {
@@ -206,9 +209,9 @@
                             });
                         });
 
-                        el.addEventListener('dialog-closed', function(e){
+                        el.addEventListener('modal-closed', function(e){
                             assert.isDefined(event);
-                            assert.equal(event.type, 'dialog-closed');
+                            assert.equal(event.type, 'modal-closed');
                             done();
                         });
                     });
@@ -218,14 +221,14 @@
                 suite('#toggle: when toggling', function() {
                     var el = diagEl.cloneNode();
 
-                    test('should call the show method if the dialog is hidden', function() {
+                    test('should call the show method if the modal is hidden', function() {
                         var spy = sinon.spy(el, 'show');
 
                         el.toggle();
                         assert.isTrue(spy.called);
                     });
 
-                    test('should call the close method if the dialog is visible', function() {
+                    test('should call the close method if the modal is visible', function() {
                         var spy = sinon.spy(el, 'close');
 
                         el.toggle();

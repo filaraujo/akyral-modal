@@ -3,31 +3,31 @@
 
     <head>
         <script>
-            window.location = 'http://filaraujo.github.io/akyral.io/dialog/index.html';
+            window.location = 'http://filaraujo.github.io/akyral.io/modal/index.html';
         </script>
 
         <script src="../platform/platform.js"></script>
-        <title>akyral-dialog Demo</title>
-        <link rel="import" href="akyral-dialog.html">
+        <title>akyral-modal Demo</title>
+        <link rel="import" href="akyral-modal.html">
     </head>
 
     <body>
 
-        <button name="button" data-dialog="#dialog1">standalone dialog 1</button>
-        <button name="button" data-dialog="#dialog2">standalone dialog 2</button>
-        <button name="button" data-dialog="#testel">extending dialog</button>
+        <button name="button" data-modal="#modal1">standalone modal 1</button>
+        <button name="button" data-modal="#modal2">standalone modal 2</button>
+        <button name="button" data-modal="#testel">extending modal</button>
 
         <template is="auto-binding">
-            <akyral-dialog id="dialog1" role="dialog" aria-labelledby="modal-title">
+            <akyral-modal id="modal1" role="dialog" aria-labelledby="modal-title">
                 <h1 id="modal-title">Akyral Sample</h1>
                 <input type="text" name="some_name" value="{{ value }}" />
                 <button name="button" on-click="{{ onClick }}">close</button>
-            </akyral-dialog>
+            </akyral-modal>
 
-            <akyral-dialog id="dialog2">
+            <akyral-modal id="modal2">
                 <input type="text" name="some_name" value="{{ value }}" />
-                <button name="button" on-click="{{ onClick }}">close dialog 2</button>
-            </akyral-dialog>
+                <button name="button" on-click="{{ onClick }}">close modal 2</button>
+            </akyral-modal>
         </template>
         <script charset="utf-8">
             var tmpl = document.querySelector('template[is="auto-binding"]');
@@ -37,7 +37,7 @@
             };
         </script>
 
-        <polymer-element name="test-el" extends="akyral-dialog">
+        <polymer-element name="test-el" extends="akyral-modal">
             <template>
                 <div id="name">
                     <input type="text" name="some_name" value=""/>
@@ -51,7 +51,7 @@
 
         <polymer-element name="test-el2">
             <template>
-                <akyral-dialog id="akydia" type="slide" position="top"></akyral-dialog>
+                <akyral-modal id="akydia" type="slide" position="top"></akyral-modal>
 
                 <button on-click="{{ onClick }}">with .contents</button>
 
@@ -92,8 +92,8 @@
 
             [].forEach.call(buttons, function(button) {
                 button.addEventListener('click', function() {
-                    var dialog = button.getAttribute('data-dialog');
-                    document.querySelector(dialog).toggle();
+                    var modal = button.getAttribute('data-modal');
+                    document.querySelector(modal).toggle();
                 });
             });
         </script>

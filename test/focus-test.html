@@ -4,22 +4,22 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-        <title>akyral-dialog</title>
+        <title>akyral-modal</title>
 
         <script src="../../platform/platform.js"></script>
         <script src="../../web-component-tester/browser.js"></script>
         <script src="../../sinon/index.js"></script>
 
-        <link rel="import" href="../akyral-dialog.html">
+        <link rel="import" href="../akyral-modal.html">
     </head>
 
     <body>
 
-        <akyral-dialog id="diag">
+        <akyral-modal id="diag">
             <input id="input1" type="text" name="some_name" value="" />
             <input id="input2" type="text" name="some_name" value="" />
             <input id="input3" type="text" name="some_name" value="" />
-        </akyral-dialog>
+        </akyral-modal>
 
         <script>
             var diagEl = document.querySelector('#diag'),
@@ -27,17 +27,17 @@
                 input2 = document.querySelector('#input2'),
                 input3 = document.querySelector('#input3');
 
-            suite('<akyral-dialog>', function() {
+            suite('<akyral-modal>', function() {
 
-                suite('when opening', function() {
-                    test('should set the focus to the first focusable element', function(done) {
+                suite('when showing', function() {
+                    test('should set the modal as the first focusable element', function(done) {
 
                         diagEl.show();
 
-                        asyncPlatformFlush(function() {
-                            assert.isTrue(input1 === document.activeElement);
+                        setTimeout(function(){
+                            assert.isTrue(diagEl === document.activeElement);
                             done();
-                        });
+                        }, 200);
                     });
 
                     test('TBD: should set the next element when hitting tab key', function() {
