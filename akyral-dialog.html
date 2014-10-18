@@ -137,6 +137,7 @@ Example:
             baseEl.show = baseEl.toggle = baseEl.close = warnApi;
             document.body.insertBefore(baseEl, document.body.firstChild);
 
+
             /**
               * The `setFocus` will query the contents of the dialog for any element that is
               * focusable. It will determine the focused index and choose the next appropriate
@@ -146,31 +147,31 @@ Example:
               * @private
               */
             function setFocus(e){
-                var nodes = this.querySelectorAll(focusableSelectors),
-                    nodesArray = [].map.call(nodes, function(node){
-                        return window.ShadowDOMPolyfill ? window.unwrap(node) : node;
-                    }),
-                    focusedIndex = nodesArray.indexOf(document.activeElement);
+                var shadowNodes = this.shadowRoot.querySelectorAll(focusableSelectors),
+                    nodes = this.querySelectorAll(focusableSelectors),
+                    nodesArray = [].slice.call(shadowNodes).concat([].slice.call(nodes)),
+                    nextIndex;
 
-
-                if (e && e.detail.shift) {
-                    if(focusedIndex === 0){
-                        focusedIndex = nodesArray.length;
-                    }
-
-                    this.async(function(){
-                        nodesArray[focusedIndex - 1] && nodesArray[focusedIndex - 1].focus();
+                // if polyfill convert node into a polymer dom object
+                if(window.ShadowDOMPolyfill){
+                    nodesArray = nodesArray.map(nodes, function(node){
+                        return window.unwrap(node);
                     });
-                    return;
                 }
 
-                if(focusedIndex === nodesArray.length - 1){
-                    focusedIndex = -1;
+                // push a loop reference to end of array
+                nodesArray.push(nodesArray[0]);
+
+                // if shift tab - reverse order
+                if(e && e.detail.shift){
+                    nodesArray = nodesArray.reverse();
                 }
 
-                this.async(function(){
-                    nodesArray[focusedIndex + 1] && nodesArray[focusedIndex + 1].focus();
-                });
+                nextIndex = nodesArray.indexOf(document.activeElement) + 1;
+
+                this.job('setfocus', function(){
+                    nodesArray[nextIndex].focus();
+                }, 100);
             }
 
             /**

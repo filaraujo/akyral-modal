@@ -1,14 +1,16 @@
 <!doctype html>
 <html>
+
     <head>
         <script>
-            window.location = 'http://filaraujo.github.io/akyral.io/dialog/index.html';
+            // window.location = 'http://filaraujo.github.io/akyral.io/dialog/index.html';
         </script>
 
         <script src="../platform/platform.js"></script>
-        <title>xh-dialog Demo</title>
+        <title>akyral-dialog Demo</title>
         <link rel="import" href="akyral-dialog.html">
     </head>
+
     <body>
 
         <button name="button" data-dialog="#dialog1">standalone dialog 1</button>
@@ -16,65 +18,63 @@
         <button name="button" data-dialog="#testel">extending dialog</button>
 
         <template is="auto-binding">
-            <akyral-dialog id="dialog1">
-                value
-                <input type="text" name="some_name" value="{{ value }}"/>
-                <button name="button" on-click="{{ onClick }}">close dialog 1</button>
-                <button name="button" on-click="{{ onClick }}">close dialog 1</button>
-                <button name="button" on-click="{{ onClick }}">close dialog 1</button>
-                <button name="button" on-click="{{ onClick }}">close dialog 1</button>
-                <button name="button" on-click="{{ onClick }}">close dialog 1</button>
-                <button name="button" on-click="{{ onClick }}">close dialog 1</button>
+            <akyral-dialog id="dialog1" aria-labelledby="Aria test dialog">
+                <h1>Modal Title</h1>
+                <input type="text" name="some_name" value="{{ value }}" />
+                <button name="button" on-click="{{ onClick }}">close</button>
             </akyral-dialog>
 
             <akyral-dialog id="dialog2">
-                <input type="text" name="some_name" value="{{ value }}"/>
+                <input type="text" name="some_name" value="{{ value }}" />
                 <button name="button" on-click="{{ onClick }}">close dialog 2</button>
             </akyral-dialog>
         </template>
         <script charset="utf-8">
             var tmpl = document.querySelector('template[is="auto-binding"]');
 
-            tmpl.onClick = function(evt, num, el){
+            tmpl.onClick = function(evt, num, el) {
                 el.parentNode.toggle();
             };
         </script>
 
         <polymer-element name="test-el" extends="akyral-dialog">
-          <template>
-            <shadow></shadow>
-          </template>
-          <script>
-            Polymer('test-el', {});
-          </script>
+            <template>
+                <div id="name">
+                    <input type="text" name="some_name" value=""/>
+                    <shadow></shadow>
+                </div>
+            </template>
+            <script>
+                Polymer('test-el', {});
+            </script>
         </polymer-element>
 
         <polymer-element name="test-el2">
-          <template>
-            <akyral-dialog id="akydia" type="slide" position="top"></akyral-dialog>
+            <template>
+                <akyral-dialog id="akydia" type="slide" position="top"></akyral-dialog>
 
-            <button on-click="{{ onClick }}">with .contents</button>
+                <button on-click="{{ onClick }}">with .contents</button>
 
-            <div id="content2">
-                i am content
-                <button name="button" on-click="{{ onClose }}">close</button>
-            </div>
-          </template>
-          <script>
-            Polymer('test-el2', {
-                ready: function(){
-                    this.$.akydia.contents = this.$.content2;
-                },
+                <div id="content2">
+                    i am content
+                    <button name="button" on-click="{{ onClose }}">close</button>
+                </div>
+            </template>
+            <script>
+                Polymer('test-el2', {
+                    ready: function() {
+                        this.$.akydia.contents = this.$.content2;
+                    },
 
-                onClick: function(){
-                    this.$.akydia.toggle();
-                },
+                    onClick: function() {
+                        this.$.akydia.toggle();
+                    },
 
-                onClose: function(){
-                    this.$.akydia.close();
-                }
-            });
-          </script>
+                    onClose: function() {
+                        this.$.akydia.close();
+                    }
+                });
+            </script>
         </polymer-element>
 
 
@@ -90,12 +90,13 @@
         <script>
             var buttons = document.querySelectorAll('button');
 
-            [].forEach.call(buttons, function( button ){
-                button.addEventListener('click', function(){
+            [].forEach.call(buttons, function(button) {
+                button.addEventListener('click', function() {
                     var dialog = button.getAttribute('data-dialog');
                     document.querySelector(dialog).toggle();
                 });
             });
         </script>
     </body>
+
 </html>
