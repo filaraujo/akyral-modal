@@ -3,7 +3,7 @@
 
     <head>
         <script>
-            // window.location = 'http://filaraujo.github.io/akyral.io/dialog/index.html';
+            window.location = 'http://filaraujo.github.io/akyral.io/dialog/index.html';
         </script>
 
         <script src="../platform/platform.js"></script>
@@ -18,8 +18,8 @@
         <button name="button" data-dialog="#testel">extending dialog</button>
 
         <template is="auto-binding">
-            <akyral-dialog id="dialog1" aria-labelledby="Aria test dialog">
-                <h1>Modal Title</h1>
+            <akyral-dialog id="dialog1" role="dialog" aria-labelledby="modal-title">
+                <h1 id="modal-title">Akyral Sample</h1>
                 <input type="text" name="some_name" value="{{ value }}" />
                 <button name="button" on-click="{{ onClick }}">close</button>
             </akyral-dialog>

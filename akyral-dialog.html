@@ -60,8 +60,8 @@ Example:
         dialog.contents = content;
     </script>
 
-
-## Type
+## Configuration
+### Type
 Setting a type allows you to define a visual effect to the dialog. You can
 choose from the following types: `drop`, `flip`, `lift`, `slide`, `swing` and
 `takeover`.
@@ -70,7 +70,7 @@ Example:
 
     <akyral-dialog type="flip"></akyral-dialog>
 
-## Position
+### Position
 Setting a position will set the visual effect's starting position. You can
 choose from the following position: `top`, `left`, `bottom`, and `right`.
 A dialog with a type of `takeover` is not affected by position.
@@ -80,13 +80,33 @@ Example:
     <akyral-dialog type="slide" position="top"></akyral-dialog>
 
 
-## Pinned location
+### Pinned location
 Setting the `pinned` attribute will pin the element to that side on the viewport.
-This will override the position attribute. Only types of `swing` and `slide` support the pinned attribute.
+This will override the position attribute. Only types of `swing` and `slide` support the pinned
+attribute.
 
 Example:
 
     <akyral-dialog type="slide" position="top" pinned="top"></akyral-dialog>
+
+## Accessiblity (a11y)
+
+## Tab ordering
+By default `akyral-dialog` will allow tabbing into accessible items with it. It will maintain tab
+focus within the modal until the escape key has been pressed or the modal has been closed.
+
+## Suggestions
+When marking up `akyral-dialog`, it is recommended that the following standards are followed.
+
+Define a role and aria-labelledby attribute
+
+Example:
+
+    <akyral-dialog role="dialog" aria-labelledby="elementID">
+        <h1 id="elementID">Modal Title</h1>
+    </akyral-dialog>
+
+
 
 @element akyral-dialog
 @blurb Web component which allows for easy modal creation
@@ -109,10 +129,14 @@ Example:
         <core-a11y-keys
             target="{{}}"
             keys="shift+tab tab"
-            on-keys-pressed="{{ setFocus }}">
+            on-keys-pressed="{{ changeFocus }}">
         </core-a11y-keys>
 
-        <div id="modal" type="{{type}}" position="{{position}}" pinned="{{pinned}}">
+        <div
+            id="modal"
+            pinned="{{pinned}}"
+            position="{{position}}"
+            type="{{type}}">
             <content id="content"></content>
         </div>
 
@@ -139,39 +163,35 @@ Example:
 
 
             /**
-              * The `setFocus` will query the contents of the dialog for any element that is
+              * The `changeFocus` will query the contents of the dialog for any element that is
               * focusable. It will determine the focused index and choose the next appropriate
               * element to focus. It will stay within the modal to prevent from leaving.
               *
-              * @method setFocus
+              * @method changeFocus
               * @private
               */
-            function setFocus(e){
+            function changeFocus(e){
                 var shadowNodes = this.shadowRoot.querySelectorAll(focusableSelectors),
-                    nodes = this.querySelectorAll(focusableSelectors),
-                    nodesArray = [].slice.call(shadowNodes).concat([].slice.call(nodes)),
+                    contentNodes = this.querySelectorAll(focusableSelectors),
+                    nodes = [].slice.call(shadowNodes).concat([].slice.call(contentNodes)),
                     nextIndex;
 
                 // if polyfill convert node into a polymer dom object
                 if(window.ShadowDOMPolyfill){
-                    nodesArray = nodesArray.map(nodes, function(node){
+                    nodes = nodes.map(function(node){
                         return window.unwrap(node);
                     });
                 }
 
                 // push a loop reference to end of array
-                nodesArray.push(nodesArray[0]);
+                nodes.push(nodes[0]);
 
                 // if shift tab - reverse order
                 if(e && e.detail.shift){
-                    nodesArray = nodesArray.reverse();
+                    nodes = nodes.reverse();
                 }
 
-                nextIndex = nodesArray.indexOf(document.activeElement) + 1;
-
-                this.job('setfocus', function(){
-                    nodesArray[nextIndex].focus();
-                }, 100);
+                nodes[nodes.indexOf(document.activeElement) + 1].focus();
             }
 
             /**
@@ -270,14 +290,23 @@ Example:
                 */
                 close: function(){
                     this.shown = false;
-                    targetElParent.appendChild( targetEl );
-                    targetEl.removeAttribute('content');
+                    this.tabIndex = '-1';
 
-                    lastFocus.focus();
+                    this.job('dialog-remove', function(){
+                        targetElParent.appendChild( targetEl );
+                        targetEl.removeAttribute('content');
+                        lastFocus.focus();
+                    }, 200);
+
                     this.fire('dialog-closed', { dialog: this });
                 },
 
-                setFocus: setFocus,
+                /**
+                * The `changeFocus` is an alias method to the private `changeFocus` method
+                *
+                * @method changeFocus
+                */
+                changeFocus: changeFocus,
 
                 /**
                 * The `show` method will open the dialog
@@ -288,17 +317,22 @@ Example:
                     targetEl = this;
                     targetEl.setAttribute('content','');
                     targetElParent = this.parentNode || document.body;
+                    lastFocus = document.activeElement;
 
                     baseEl.bind( 'pinned', new PathObserver( this, 'pinned' ) );
                     baseEl.bind( 'position', new PathObserver( this, 'position' ) );
                     baseEl.bind( 'shown', new PathObserver( this, 'shown' ) );
                     baseEl.bind( 'type', new PathObserver( this, 'type' ) );
-
                     baseEl.appendChild( targetEl );
-                    this.shown = true;
 
-                    lastFocus = document.activeElement;
-                    this.setFocus();
+                    this.shown = true;
+                    this.tabIndex = 0;
+
+                    // wait until injected, then focus
+                    this.job('dialog-focus', function(){
+                        this.focus();
+                    }, 150);
+
                     this.fire('dialog-shown', { dialog: this });
                 },
 

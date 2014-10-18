@@ -64,8 +64,8 @@ $modalMarginViewportUnit: 5vmin;
 
 #modal {
     background: #fff;
-    margin: $modalMargin;
-    margin: $modalMarginViewportUnit;
+    padding: $modalMargin;
+    padding: $modalMarginViewportUnit;
     max-width: 720px;
     opacity: 0;
     overflow: auto;
