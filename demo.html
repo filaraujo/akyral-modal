@@ -3,7 +3,7 @@
 
     <head>
         <script>
-            window.location = 'http://filaraujo.github.io/akyral.io/modal/index.html';
+            // window.location = 'http://filaraujo.github.io/akyral.io/modal/index.html';
         </script>
 
         <script src="../platform/platform.js"></script>
@@ -18,7 +18,7 @@
         <button name="button" data-modal="#testel">extending modal</button>
 
         <template is="auto-binding">
-            <akyral-modal id="modal1" role="dialog" aria-labelledby="modal-title">
+            <akyral-modal id="modal1" role="dialog" aria-labelledby="modal-title" type="slide">
                 <h1 id="modal-title">Akyral Sample</h1>
                 <input type="text" name="some_name" value="{{ value }}" />
                 <button name="button" on-click="{{ onClick }}">close</button>
@@ -39,10 +39,7 @@
 
         <polymer-element name="test-el" extends="akyral-modal">
             <template>
-                <div id="name">
-                    <input type="text" name="some_name" value=""/>
-                    <shadow></shadow>
-                </div>
+                <shadow></shadow>
             </template>
             <script>
                 Polymer('test-el', {});

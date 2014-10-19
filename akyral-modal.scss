@@ -6,72 +6,95 @@ $modalMarginViewportUnit: 5vmin;
 
 
 :host {
-    display: none;
-}
-:host([content]) {
-    display: block;
-}
-
-:host([core]) {
     align-items: center;
     background: $overlayColor;
     bottom: 0;
     display: flex;
-    justify-content: center;
     left: 0;
-    min-width: 320px;
-    opacity: 0;
-    overflow: auto;
-    perspective: 1300;
-    pointer-events: none;
+    justify-content: center;
     position: fixed;
+    pointer-events: none;
+    opacity: 0;
     right: 0;
-    transform: translate3d(0,0,0);
-    transition: opacity .3s .1s cubic-bezier(0.0, 0.0, 0.2, 1), visibility 0 .4s;
-    top: 0;
+    top:  0;
+    transition:
+        opacity .3s 0,
+        visibility 0 .3s;
+    transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
     visibility: hidden;
-    will-change: opacity;
-    z-index: 100;
+    will-change: opacity, visibility;
 }
 
-:host([core][shown]){
+:host([shown]){
     pointer-events: all;
     opacity: 1;
-    transition: opacity .3s cubic-bezier(0.0, 0.0, 0.2, 1);
+    transition:
+        opacity .3s 0,
+        visibility 0 0;
     visibility: visible;
 }
 
-:host([core][type="takeover"]){
+#modal {
+    background: #fff;
+    overflow: auto;
+    opacity: 0;
+    padding: $modalMargin;
+    padding: $modalMarginViewportUnit;
+    transition:
+        opacity .3s 0,
+        visibility 0 .3s;
+    visibility: hidden;
+}
+
+:host([shown]) #modal {
+    opacity: 1;
+    transition:
+        opacity .3s .16s,
+        visibility 0 0;
+    visibility: visible;
+}
+
+:host([type="takeover"]){
     background: #fff;
 }
 
-:host([core][pinned="top"]){
+:host([pinned="top"]){
     align-items: flex-start;
 }
 
-:host([core][pinned="left"]){
+:host([pinned="left"]){
     justify-content: flex-start;
 }
 
-:host([core][pinned="bottom"]){
+:host([pinned="bottom"]){
     align-items: flex-end;
 }
 
-:host([core][pinned="right"]){
+:host([pinned="right"]){
     justify-content: flex-end;
 }
+//
+//
 
+
+:host([shown]) #modal {
+    transform: translate3d(0,0,0) !important;
+    transition:
+        transform .3s .1s cubic-bezier(0.0, 0.0, 0.2, 1);
+}
 
 #modal {
-    background: #fff;
-    padding: $modalMargin;
-    padding: $modalMarginViewportUnit;
-    max-width: 720px;
-    opacity: 0;
-    overflow: auto;
-    transition: transform .3s ease-in, opacity .3s cubic-bezier(0.0, 0.0, 0.2, 1);
-    transform: translate3d(0,0,0);
-    will-change: transform, opacity;
+    transition:
+        transform .3s .1s cubic-bezier(0.0, 0.0, 0.2, 1);
+    // background: #fff;
+    // padding: $modalMargin;
+    // padding: $modalMarginViewportUnit;
+    // max-width: 720px;
+    // opacity: 0;
+    // overflow: auto;
+    // transition: transform .3s ease-in, opacity .3s cubic-bezier(0.0, 0.0, 0.2, 1);
+    // will-change: transform, opacity;
+
 
 // TYPES
 // takeover
@@ -236,11 +259,5 @@ $modalMarginViewportUnit: 5vmin;
 
     &[pinned="right"]{
         margin-right: 0;
-    }
-
-    :host([shown]) & {
-        opacity: 1;
-        transform: translate3d(0,0,0) !important;
-        transition: transform .3s .1s cubic-bezier(0.0, 0.0, 0.2, 1), opacity .3s .1s cubic-bezier(0.0, 0.0, 0.2, 1);
     }
 }

@@ -136,7 +136,19 @@ Example:
             id="modal"
             pinned="{{pinned}}"
             position="{{position}}"
+            role="dialog"
             type="{{type}}">
+
+            <!-- <template if="{{ closebutton }}"> -->
+                <button
+                    id="modal__closebtn"
+                    on-tap="{{ close }}"
+                    type="button">
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">Close</span>
+                </button>
+            <!-- </template> -->
+
             <content id="content"></content>
         </div>
 
@@ -157,9 +169,9 @@ Example:
 
 
             // inject core modal to page
-            baseEl.setAttribute('core','');
-            baseEl.show = baseEl.toggle = baseEl.close = warnApi;
-            document.body.insertBefore(baseEl, document.body.firstChild);
+            // baseEl.setAttribute('core','');
+            // baseEl.show = baseEl.toggle = baseEl.close = warnApi;
+            // document.body.insertBefore(baseEl, document.body.firstChild);
 
 
             /**
@@ -173,10 +185,17 @@ Example:
             function changeFocus(e){
                 var shadowNodes = this.shadowRoot.querySelectorAll(focusableSelectors),
                     contentNodes = this.querySelectorAll(focusableSelectors),
-                    nodes = [].slice.call(shadowNodes).concat([].slice.call(contentNodes)),
+                    nodes = [].slice.call(contentNodes),
                     nextIndex;
 
-                // if polyfill convert node into a polymer dom object
+                nodes.push(this.$.modal__closebtn);
+
+                    // console.log([].slice.call(contentNodes))
+                if(!nodes.length){
+                    return
+                }
+
+                // https://github.com/Polymer/ShadowDOM/issues/478
                 if(window.ShadowDOMPolyfill){
                     nodes = nodes.map(function(node){
                         return window.unwrap(node);
@@ -186,10 +205,15 @@ Example:
                 // push a loop reference to end of array
                 nodes.push(nodes[0]);
 
+
+            console.log(nodes)
+
                 // if shift tab - reverse order
                 if(e && e.detail.shift){
                     nodes = nodes.reverse();
                 }
+
+                // console.log(nodes[nodes.indexOf(document.activeElement) + 1])
 
                 nodes[nodes.indexOf(document.activeElement) + 1].focus();
             }
@@ -201,9 +225,9 @@ Example:
               * @method warnApi
               * @private
               */
-            function warnApi(){
-                console.error('akyral-modal :: You can\'t interact with this element directly');
-            }
+            // function warnApi(){
+            //     console.error('akyral-modal :: You can\'t interact with this element directly');
+            // }
 
             Polymer('akyral-modal', {
 
@@ -293,10 +317,9 @@ Example:
                     this.tabIndex = '-1';
 
                     this.job('modal-remove', function(){
-                        targetElParent.appendChild( targetEl );
-                        targetEl.removeAttribute('content');
+                        targetElParent.appendChild( this );
                         lastFocus.focus();
-                    }, 200);
+                    }, 333);
 
                     this.fire('modal-closed', { modal: this });
                 },
@@ -314,24 +337,27 @@ Example:
                 * @method show
                 */
                 show: function(){
-                    targetEl = this;
-                    targetEl.setAttribute('content','');
+                    // targetEl = this;
+                    // targetEl.setAttribute('content','');
                     targetElParent = this.parentNode || document.body;
                     lastFocus = document.activeElement;
 
-                    baseEl.bind( 'pinned', new PathObserver( this, 'pinned' ) );
-                    baseEl.bind( 'position', new PathObserver( this, 'position' ) );
-                    baseEl.bind( 'shown', new PathObserver( this, 'shown' ) );
-                    baseEl.bind( 'type', new PathObserver( this, 'type' ) );
-                    baseEl.appendChild( targetEl );
+                    // baseEl.bind( 'pinned', new PathObserver( this, 'pinned' ) );
+                    // baseEl.bind( 'position', new PathObserver( this, 'position' ) );
+                    // baseEl.bind( 'shown', new PathObserver( this, 'shown' ) );
+                    // baseEl.bind( 'type', new PathObserver( this, 'type' ) );
+                    document.body.insertBefore(this, document.body.firstChild);
 
-                    this.shown = true;
-                    this.tabIndex = 0;
+                    this.$.modal.tabIndex = 0;
 
                     // wait until injected, then focus
+                    this.job('modal-shown', function(){
+                        this.shown = true;
+                    }, 250);
+
                     this.job('modal-focus', function(){
-                        this.focus();
-                    }, 150);
+                        this.$.modal.focus();
+                    }, 500);
 
                     this.fire('modal-shown', { modal: this });
                 },
