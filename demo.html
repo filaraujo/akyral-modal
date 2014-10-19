@@ -3,7 +3,7 @@
 
     <head>
         <script>
-            window.location = 'http://filaraujo.github.io/akyral.io/modal/index.html';
+            // window.location = 'http://filaraujo.github.io/akyral.io/modal/index.html';
         </script>
 
         <script src="../platform/platform.js"></script>
@@ -18,7 +18,7 @@
         <button name="button" data-modal="#testel">extending modal</button>
 
         <template is="auto-binding">
-            <akyral-modal id="modal1" role="dialog" aria-labelledby="modal-title">
+            <akyral-modal id="modal1" role="dialog" aria-labelledby="modal-title" type="swing" position="bottom" pinned="top">
                 <h1 id="modal-title">Akyral Sample</h1>
                 <input type="text" name="some_name" value="{{ value }}" />
                 <button name="button" on-click="{{ onClick }}">close</button>
@@ -41,7 +41,7 @@
             <template>
                 <div id="name">
                     <input type="text" name="some_name" value=""/>
-                    <shadow></shadow>
+                    <content></content>
                 </div>
             </template>
             <script>
@@ -79,12 +79,12 @@
 
 
         <div id="name">
-            <test-el id="testel">
+            <test-el id="testel" type="slide">
                 content
             </test-el>
         </div>
 
-        <test-el2></test-el2>
+        <test-el2 type="slide"></test-el2>
 
 
         <script>

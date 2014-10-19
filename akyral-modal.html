@@ -132,13 +132,7 @@ Example:
             on-keys-pressed="{{ changeFocus }}">
         </core-a11y-keys>
 
-        <div
-            id="modal"
-            pinned="{{pinned}}"
-            position="{{position}}"
-            type="{{type}}">
-            <content id="content"></content>
-        </div>
+        <content id="content"></content>
 
     </template>
     <script>
@@ -155,12 +149,10 @@ Example:
 
                 baseEl = document.createElement('akyral-modal');
 
-
             // inject core modal to page
             baseEl.setAttribute('core','');
             baseEl.show = baseEl.toggle = baseEl.close = warnApi;
             document.body.insertBefore(baseEl, document.body.firstChild);
-
 
             /**
               * The `changeFocus` will query the contents of the modal for any element that is
@@ -295,6 +287,8 @@ Example:
                     this.job('modal-remove', function(){
                         targetElParent.appendChild( targetEl );
                         targetEl.removeAttribute('content');
+                        baseEl.removeAttribute('position');
+                        baseEl.removeAttribute('pinned');
                         lastFocus.focus();
                     }, 200);
 
@@ -319,21 +313,26 @@ Example:
                     targetElParent = this.parentNode || document.body;
                     lastFocus = document.activeElement;
 
-                    baseEl.bind( 'pinned', new PathObserver( this, 'pinned' ) );
-                    baseEl.bind( 'position', new PathObserver( this, 'position' ) );
+                    this.setAttribute('type', this.type);
+
                     baseEl.bind( 'shown', new PathObserver( this, 'shown' ) );
-                    baseEl.bind( 'type', new PathObserver( this, 'type' ) );
+                    baseEl.bind( 'pinned', new PathObserver( this, 'pinned' ) );
+                    baseEl.type = this.type;
+                    baseEl.pinned = this.pinned;
+                    baseEl.position = this.position;
                     baseEl.appendChild( targetEl );
 
-                    this.shown = true;
                     this.tabIndex = 0;
 
                     // wait until injected, then focus
+                    this.job('modal-shown', function(){
+                        this.shown = true;
+                        this.fire('modal-shown', { modal: this });
+                    }, 300);
+
                     this.job('modal-focus', function(){
                         this.focus();
-                    }, 150);
-
-                    this.fire('modal-shown', { modal: this });
+                    }, 300);
                 },
 
                 /**
