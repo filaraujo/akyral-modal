@@ -314,15 +314,14 @@ Example:
                     lastFocus = document.activeElement;
 
                     this.setAttribute('type', this.type);
+                    this.tabIndex = 0;
 
                     baseEl.bind( 'shown', new PathObserver( this, 'shown' ) );
                     baseEl.bind( 'pinned', new PathObserver( this, 'pinned' ) );
-                    baseEl.type = this.type;
-                    baseEl.pinned = this.pinned;
-                    baseEl.position = this.position;
-                    baseEl.appendChild( targetEl );
+                    baseEl.bind( 'type', new PathObserver( this, 'type' ) );
+                    baseEl.appendChild( this );
 
-                    this.tabIndex = 0;
+
 
                     // wait until injected, then focus
                     this.job('modal-shown', function(){
