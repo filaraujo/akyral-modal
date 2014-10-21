@@ -57,10 +57,6 @@
                         assert.isFunction(diagEl.close);
                     });
 
-                    test('should have a reference to the inner modal', function() {
-                        assert.isDefined(diagEl.$.modal);
-                    });
-
                     test('should have a reference to the inner content', function() {
                         assert.isDefined(diagEl.$.content);
                     });
@@ -116,10 +112,10 @@
                     test('should set the "shown" property to true', function(done) {
                         el.show();
 
-                        asyncPlatformFlush(function() {
+                        setTimeout(function() {
                             assert.isTrue(el.shown);
                             done();
-                        });
+                        }, 500);
                     });
 
                     test('should add the "shown" attribute', function() {
@@ -228,11 +224,15 @@
                         assert.isTrue(spy.called);
                     });
 
-                    test('should call the close method if the modal is visible', function() {
+                    test('should call the close method if the modal is visible', function(done) {
                         var spy = sinon.spy(el, 'close');
 
-                        el.toggle();
-                        assert.isTrue(spy.called);
+                        setTimeout(function(){
+                            el.toggle();
+                            assert.isTrue(spy.called);
+                            done();
+                        }, 350);
+
                     });
                 });
             });
