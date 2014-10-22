@@ -145,12 +145,14 @@ Example:
 
                 focusableSelectors = 'a[href], button, input, textarea, select',
 
+                docEl = document.body || document.documentElement,
+
                 baseEl = document.createElement('akyral-modal');
 
             // inject core modal to page
             baseEl.setAttribute('core','');
             baseEl.show = baseEl.toggle = baseEl.close = warnApi;
-            document.body.insertBefore(baseEl, document.body.firstChild);
+            docEl.insertBefore(baseEl, docEl.firstChild);
 
             /**
               * The `changeFocus` will query the contents of the modal for any element that is

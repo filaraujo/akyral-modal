@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+        <title>akyral-modal</title>
+
+        <script src="../../platform/platform.js"></script>
+        <script src="../../web-component-tester/browser.js"></script>
+        <link rel="import" href="../akyral-modal.html">
+        <script>
+            // defers execution enough for akyral-modal to load
+            console.log('deferring execution');
+        </script>
+    </head>
+
+    <body>
+
+        <akyral-modal>
+            Here's a modal dialog.
+        </akyral-modal>
+
+        <script>
+            suite('<akyral-modal>', function() {
+
+                suite('when the modal component is executed before the body is declared', function() {
+                    test('should create the akyral-modal container within the existing html document',
+                    function() {
+                        var coreEl = document.querySelectorAll('akyral-modal[core]');
+
+                        assert.isDefined(coreEl);
+                        assert.lengthOf(coreEl, 1);
+                    });
+                });
+
+            });
+
+        </script>
+    </body>
+
+</html>
