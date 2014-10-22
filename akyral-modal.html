@@ -168,6 +168,10 @@ Example:
                     nodes = [].slice.call(shadowNodes).concat([].slice.call(contentNodes)),
                     nextIndex;
 
+                if(!nodes.length){
+                    return;
+                }
+
                 // if polyfill convert node into a polymer dom object
                 if(window.ShadowDOMPolyfill){
                     nodes = nodes.map(function(node){
