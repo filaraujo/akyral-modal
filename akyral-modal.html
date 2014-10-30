@@ -155,6 +155,20 @@ Example:
             docEl.insertBefore(baseEl, docEl.firstChild);
 
             /**
+              * The `ensureInBody` will move the element into the body
+              *
+              * @method initialize
+              * @private
+              */
+            function ensureInBody(){
+                docEl = document.body;
+
+                if(baseEl.parentNode !== docEl){
+                    docEl.insertBefore(baseEl, docEl.firstChild);
+                }
+            }
+
+            /**
               * The `changeFocus` will query the contents of the modal for any element that is
               * focusable. It will determine the focused index and choose the next appropriate
               * element to focus. It will stay within the modal to prevent from leaving.
@@ -379,6 +393,9 @@ Example:
 
                 }
             });
+
+            // bind to DOMContentLoaded event
+            document.addEventListener('DOMContentLoaded', ensureInBody);
         }());
     </script>
 </polymer-element>
