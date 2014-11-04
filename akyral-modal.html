@@ -385,7 +385,10 @@ Example:
                 ready: function(){
                     this.type = 'takeover';
                     this.setAttribute('role','dialog');
-                    this.parentContainer = this.parentNode || document.body;
+
+                    this.async(function(){
+                        this.parentContainer = this.parentNode || document.body;
+                    }, 100);
 
                     if(this.heading){
                         this.setAttribute('aria-label', this.heading);
