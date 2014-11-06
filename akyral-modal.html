@@ -125,12 +125,6 @@ Example:
             on-keys-pressed="{{ close }}">
         </core-a11y-keys>
 
-        <core-a11y-keys
-            target="{{}}"
-            keys="shift+tab tab"
-            on-keys-pressed="{{ changeFocus }}">
-        </core-a11y-keys>
-
         <content id="content"></content>
 
     </template>
@@ -141,8 +135,6 @@ Example:
                 targetEl,
 
                 lastFocus,
-
-                focusableSelectors = 'a[href], button, input, textarea, select',
 
                 docEl = document.body || document.documentElement,
 
@@ -168,39 +160,15 @@ Example:
             }
 
             /**
-              * The `changeFocus` will query the contents of the modal for any element that is
-              * focusable. It will determine the focused index and choose the next appropriate
-              * element to focus. It will stay within the modal to prevent from leaving.
-              *
-              * @method changeFocus
-              * @private
-              */
-            function changeFocus(e){
-                var shadowNodes = this.shadowRoot.querySelectorAll(focusableSelectors),
-                    contentNodes = this.querySelectorAll(focusableSelectors),
-                    nodes = [].slice.call(shadowNodes).concat([].slice.call(contentNodes)),
-                    nextIndex;
-
-                if(!nodes.length){
-                    return;
+            * The `ensureFocus` will ensure that when focus has left a modal, and that modal is
+            * still open it will reset focus to the modal
+            *
+            * @method ensureFocus
+            */
+            function ensureFocus(e){
+                if(baseEl.shown && !baseEl.contains(e.target) ){
+                    targetEl.focus();
                 }
-
-                // if polyfill convert node into a polymer dom object
-                if(window.ShadowDOMPolyfill){
-                    nodes = nodes.map(function(node){
-                        return window.unwrap(node);
-                    });
-                }
-
-                // push a loop reference to end of array
-                nodes.push(nodes[0]);
-
-                // if shift tab - reverse order
-                if(e && e.detail.shift){
-                    nodes = nodes.reverse();
-                }
-
-                nodes[nodes.indexOf(document.activeElement) + 1].focus();
             }
 
             /**
@@ -307,7 +275,7 @@ Example:
                 */
                 close: function(){
                     this.shown = false;
-                    this.tabIndex = '-1';
+                    this.removeAttribute('tabindex');
 
                     this.job('modal-remove', function(){
                         this.parentContainer.appendChild( targetEl );
@@ -321,13 +289,6 @@ Example:
                 },
 
                 /**
-                * The `changeFocus` is an alias method to the private `changeFocus` method
-                *
-                * @method changeFocus
-                */
-                changeFocus: changeFocus,
-
-                /**
                 * The `show` method will open the modal
                 *
                 * @method show
@@ -337,7 +298,7 @@ Example:
                     targetEl.setAttribute('content','');
                     lastFocus = document.activeElement;
 
-                    this.tabIndex = 0;
+                    this.tabIndex = -1;
 
                     baseEl.bind( 'shown', new PathObserver( this, 'shown' ) );
                     baseEl.bind( 'pinned', new PathObserver( this, 'pinned' ) );
@@ -396,8 +357,8 @@ Example:
                 }
             });
 
-            // bind to DOMContentLoaded event
             document.addEventListener('DOMContentLoaded', ensureInBody);
+            document.addEventListener('focus', ensureFocus, true);
         }());
     </script>
 </polymer-element>
