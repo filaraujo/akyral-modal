@@ -280,7 +280,7 @@ Example:
                     this.job('modal-remove', function(){
                         this.parentContainer.appendChild( targetEl );
                         targetEl.removeAttribute('content');
-                        baseEl.removeAttribute('position');
+                        baseEl.removeAttribute('type');
                         baseEl.removeAttribute('pinned');
                         lastFocus.focus();
                     }, 200);
@@ -300,9 +300,9 @@ Example:
 
                     this.tabIndex = -1;
 
+                    baseEl.setAttribute('type', this.type);
+                    baseEl.setAttribute('pinned', this.pinned);
                     baseEl.bind( 'shown', new PathObserver( this, 'shown' ) );
-                    baseEl.bind( 'pinned', new PathObserver( this, 'pinned' ) );
-                    baseEl.bind( 'type', new PathObserver( this, 'type' ) );
                     baseEl.appendChild( this );
 
                     // wait until injected, then focus
@@ -343,7 +343,6 @@ Example:
                  * @method ready
                  */
                 ready: function(){
-                    this.type = 'takeover';
                     this.setAttribute('role','dialog');
 
                     this.async(function(){

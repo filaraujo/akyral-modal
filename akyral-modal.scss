@@ -43,6 +43,7 @@ $modalMarginViewportUnit: 5vmin;
     visibility: visible;
 }
 
+:host([core]:not([type])),
 :host([core][type="takeover"]){
     background: #fff;
 }

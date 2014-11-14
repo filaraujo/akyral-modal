@@ -15,16 +15,19 @@
 
         <button name="button" data-modal="#modal1">standalone modal 1</button>
         <button name="button" data-modal="#modal2">standalone modal 2</button>
-        <button name="button" data-modal="#testel">extending modal</button>
+        <button name="button" data-modal="#modal3">extending modal</button>
 
         <template is="auto-binding">
-            <akyral-modal id="modal1" role="dialog" aria-labelledby="modal-title" type="swing" position="bottom" pinned="top">
+
+            <!-- modal1 -->
+            <akyral-modal id="modal1" role="dialog" aria-labelledby="modal-title" type="swing" pinned="top">
                 <h1 id="modal-title">Akyral Sample</h1>
                 <input type="text" name="some_name" value="{{ value }}" />
                 <button name="button" on-click="{{ onClick }}">close</button>
             </akyral-modal>
 
-            <akyral-modal id="modal2" >
+            <!-- modal2 -->
+            <akyral-modal id="modal2" position="bottom" type="slide">
                 <input type="text" name="some_name" value="{{ value }}" />
                 <button name="button" on-click="{{ onClick }}">close modal 2</button>
             </akyral-modal>
@@ -51,7 +54,7 @@
 
         <polymer-element name="test-el2">
             <template>
-                <akyral-modal id="akydia" type="slide" position="top"></akyral-modal>
+                <akyral-modal id="akydia" position="top"></akyral-modal>
 
                 <button on-click="{{ onClick }}">with .contents</button>
 
@@ -79,7 +82,8 @@
 
 
         <div id="name">
-            <test-el id="testel" type="slide">
+            <!-- modal3 -->
+            <test-el id="modal3" type="slide">
                 content
             </test-el>
         </div>
