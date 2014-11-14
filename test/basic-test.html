@@ -142,7 +142,7 @@
                     test('should fire a "modal-shown" event after opening', function(done) {
                         var el = diagWithAttrsEl.cloneNode();
 
-                        asyncPlatformFlush(function() {
+                        flush(function() {
                             el.show();
                         });
 
@@ -164,11 +164,11 @@
                         el.show();
 
                         // wait for open it
-                        asyncPlatformFlush(function() {
+                        flush(function() {
                             el.close();
 
                             // wait for close it
-                            asyncPlatformFlush(function() {
+                            flush(function() {
                                 assert.isFalse(el.shown);
                                 done();
                             });
@@ -197,10 +197,10 @@
                     test('should fire a "modal-closed" event after closing', function(done) {
                         var el = diagWithAttrsEl.cloneNode();
 
-                        asyncPlatformFlush(function() {
+                        flush(function() {
                             el.show();
 
-                            asyncPlatformFlush(function() {
+                            flush(function() {
                                 el.close();
                             });
                         });
