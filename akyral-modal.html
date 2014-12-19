@@ -138,7 +138,9 @@ Example:
 
                 docEl = document.body || document.documentElement,
 
-                baseEl = document.createElement('akyral-modal');
+                baseEl = document.createElement('akyral-modal'),
+
+                oldOverflow;
 
             // inject core modal to page
             baseEl.setAttribute('core','');
@@ -278,6 +280,7 @@ Example:
                     this.removeAttribute('tabindex');
 
                     this.job('modal-remove', function(){
+                        document.body.style.overflow = oldOverflow;
                         this.parentContainer.appendChild( targetEl );
                         targetEl.removeAttribute('content');
                         baseEl.removeAttribute('type');
@@ -308,6 +311,8 @@ Example:
                     // wait until injected, then focus
                     this.job('modal-shown', function(){
                         this.shown = true;
+                        oldOverflow = document.body.style.overflow;
+                        document.body.style.overflow = 'hidden';
                         this.fire('modal-shown', { modal: this });
                     }, 300);
 
