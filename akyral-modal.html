@@ -110,259 +110,260 @@ Example:
 
 @element akyral-modal
 @blurb Web component which allows for easy modal creation
-@status alpha
+@demo http://filaraujo.github.io/akyral.io/modal/index.html
 @homepage https://github.com/filaraujo/akyral-modal
 -->
 
 <polymer-element name="akyral-modal">
-    <template>
+  <template>
 
-        <link rel="stylesheet" href="akyral-modal.css" />
+    <link rel="stylesheet" href="akyral-modal.css" />
 
-        <core-a11y-keys
-            target="{{}}"
-            keys="esc"
-            on-keys-pressed="{{ close }}">
-        </core-a11y-keys>
+    <core-a11y-keys target="{{}}" keys="esc" on-keys-pressed="{{ close }}">
+    </core-a11y-keys>
 
-        <content id="content"></content>
+    <content id="content"></content>
 
-    </template>
-    <script>
-        (function(){
-            var authors = ['Filipe Araujo'],
+  </template>
+  <script>
+    (function() {
+      var authors = ['Filipe Araujo'],
 
-                targetEl,
+        targetEl,
 
-                lastFocus,
+        lastFocus,
 
-                docEl = document.body || document.documentElement,
+        docEl = document.body || document.documentElement,
 
-                baseEl = document.createElement('akyral-modal'),
+        baseEl = document.createElement('akyral-modal'),
 
-                oldOverflow;
+        oldOverflow;
 
-            // inject core modal to page
-            baseEl.setAttribute('core','');
-            baseEl.show = baseEl.toggle = baseEl.close = warnApi;
-            docEl.insertBefore(baseEl, docEl.firstChild);
+      // inject core modal to page
+      baseEl.setAttribute('core', '');
+      baseEl.show = baseEl.toggle = baseEl.close = warnApi;
+      docEl.insertBefore(baseEl, docEl.firstChild);
 
-            /**
-              * The `ensureInBody` will move the element into the body
-              *
-              * @method initialize
-              * @private
-              */
-            function ensureInBody(){
-                docEl = document.body;
+      /**
+       * The `ensureInBody` will move the element into the body
+       *
+       * @method initialize
+       * @private
+       */
+      function ensureInBody() {
+        docEl = document.body;
 
-                if(baseEl.parentNode !== docEl){
-                    docEl.insertBefore(baseEl, docEl.firstChild);
-                }
-            }
+        if (baseEl.parentNode !== docEl) {
+          docEl.insertBefore(baseEl, docEl.firstChild);
+        }
+      }
 
-            /**
-            * The `ensureFocus` will ensure that when focus has left a modal, and that modal is
-            * still open it will reset focus to the modal
-            *
-            * @method ensureFocus
-            */
-            function ensureFocus(e){
-                if(baseEl.shown && !baseEl.contains(e.target) ){
-                    targetEl.focus();
-                }
-            }
+      /**
+       * The `ensureFocus` will ensure that when focus has left a modal, and that modal is
+       * still open it will reset focus to the modal
+       *
+       * @method ensureFocus
+       */
+      function ensureFocus(e) {
+        if (baseEl.shown && !baseEl.contains(e.target)) {
+          targetEl.focus();
+        }
+      }
 
-            /**
-              * Attempting to call methods against the instance managed `akyral-modal` will result
-              * in calling `warnApi` instead.
-              *
-              * @method warnApi
-              * @private
-              */
-            function warnApi(){
-                console.error('akyral-modal :: You can\'t interact with this element directly');
-            }
+      /**
+       * Attempting to call methods against the instance managed `akyral-modal` will result
+       * in calling `warnApi` instead.
+       *
+       * @method warnApi
+       * @private
+       */
+      function warnApi() {
+        console.error('akyral-modal :: You can\'t interact with this element directly');
+      }
 
-            Polymer('akyral-modal', {
+      Polymer('akyral-modal', {
 
-                /**
-                 * The `author` attribute defines the initial author, setting
-                 * this value will add another author
-                 *
-                 * @attribute author
-                 * @type string
-                 * @default 'Filipe Araujo'
-                 */
-                set author(name){
-                    if(authors.indexOf(name) > 0){
-                        return;
-                    }
-                    authors = [].concat.apply(authors, [name]);
-                },
+        /**
+         * The `author` attribute defines the initial author, setting
+         * this value will add another author
+         *
+         * @attribute author
+         * @type string
+         * @default 'Filipe Araujo'
+         */
+        set author(name) {
+          if (authors.indexOf(name) > 0) {
+            return;
+          }
+          authors = [].concat.apply(authors, [name]);
+        },
 
-                get author(){
-                    return authors;
-                },
+        get author() {
+          return authors;
+        },
 
-                publish: {
-                    /**
-                     * The `heading` will set the modal aria-label value
-                     *
-                     * @attribute heading
-                     * @type string
-                     * @default ''
-                     */
-                    heading: '',
+        publish: {
+          /**
+           * The `heading` will set the modal aria-label value
+           *
+           * @attribute heading
+           * @type string
+           * @default ''
+           */
+          heading: '',
 
-                    /**
-                     * The `pinned` will pin the element to that side on the
-                     * viewport.  Only supported by elements with type of
-                     * `slide` and `swing`
-                     *
-                     * @attribute pinned
-                     * @type string
-                     * @default null
-                     */
-                    pinned: {
-                        reflect: true,
-                        value: undefined
-                    },
+          /**
+           * The `pinned` will pin the element to that side on the
+           * viewport.  Only supported by elements with type of
+           * `slide` and `swing`
+           *
+           * @attribute pinned
+           * @type string
+           * @default null
+           */
+          pinned: {
+            reflect: true,
+            value: undefined
+          },
 
-                    /**
-                     * The `position` attribute defines the visual effect's
-                     * starting position
-                     *
-                     * @attribute position
-                     * @type string
-                     * @default null
-                     */
-                    position: {
-                        reflect: true,
-                        value: undefined
-                    },
+          /**
+           * The `position` attribute defines the visual effect's
+           * starting position
+           *
+           * @attribute position
+           * @type string
+           * @default null
+           */
+          position: {
+            reflect: true,
+            value: undefined
+          },
 
-                    /**
-                     * The `shown` attribute manages the visibility state of the
-                     * modal
-                     *
-                     * @attribute shown
-                     * @type boolean
-                     * @default false
-                     */
+          /**
+           * The `shown` attribute manages the visibility state of the
+           * modal
+           *
+           * @attribute shown
+           * @type boolean
+           * @default false
+           */
 
-                    shown: {
-                        reflect: true,
-                        value: false
-                    },
+          shown: {
+            reflect: true,
+            value: false
+          },
 
-                    /**
-                     * The `type` attribute defines the visual effect of the
-                     * modal. It defaults to `takeover` if it is not defined
-                     *
-                     * @attribute type
-                     * @type string
-                     * @default 'takeover'
-                     */
-                    type: {
-                        reflect: true,
-                        value: 'takeover'
-                    }
-                },
+          /**
+           * The `type` attribute defines the visual effect of the
+           * modal. It defaults to `takeover` if it is not defined
+           *
+           * @attribute type
+           * @type string
+           * @default 'takeover'
+           */
+          type: {
+            reflect: true,
+            value: 'takeover'
+          }
+        },
 
-                /**
-                * The `close` method will close the modal
-                *
-                * @method close
-                */
-                close: function(){
-                    this.shown = false;
-                    this.removeAttribute('tabindex');
+        /**
+         * The `close` method will close the modal
+         *
+         * @method close
+         */
+        close: function() {
+          this.shown = false;
+          this.removeAttribute('tabindex');
 
-                    this.job('modal-remove', function(){
-                        document.body.style.overflow = oldOverflow;
-                        this.parentContainer.appendChild( targetEl );
-                        targetEl.removeAttribute('content');
-                        baseEl.removeAttribute('type');
-                        baseEl.removeAttribute('pinned');
-                        lastFocus.focus();
-                    }, 200);
+          this.job('modal-remove', function() {
+            document.body.style.overflow = oldOverflow;
+            this.parentContainer.appendChild(targetEl);
+            targetEl.removeAttribute('content');
+            baseEl.removeAttribute('type');
+            baseEl.removeAttribute('pinned');
+            lastFocus.focus();
+          }, 200);
 
-                    this.fire('modal-closed', { modal: this });
-                },
+          this.fire('modal-closed', {
+            modal: this
+          });
+        },
 
-                /**
-                * The `show` method will open the modal
-                *
-                * @method show
-                */
-                show: function(){
-                    targetEl = this;
-                    targetEl.setAttribute('content','');
-                    lastFocus = document.activeElement;
+        /**
+         * The `show` method will open the modal
+         *
+         * @method show
+         */
+        show: function() {
+          targetEl = this;
+          targetEl.setAttribute('content', '');
+          lastFocus = document.activeElement;
 
-                    this.tabIndex = -1;
+          this.tabIndex = -1;
 
-                    baseEl.setAttribute('type', this.type);
-                    baseEl.setAttribute('pinned', this.pinned);
-                    baseEl.bind( 'shown', new PathObserver( this, 'shown' ) );
-                    baseEl.appendChild( this );
+          baseEl.setAttribute('type', this.type);
+          baseEl.setAttribute('pinned', this.pinned);
+          baseEl.bind('shown', new PathObserver(this, 'shown'));
+          baseEl.appendChild(this);
 
-                    // wait until injected, then focus
-                    this.job('modal-shown', function(){
-                        this.shown = true;
-                        oldOverflow = document.body.style.overflow;
-                        document.body.style.overflow = 'hidden';
-                        this.fire('modal-shown', { modal: this });
-                    }, 300);
-
-                    this.job('modal-focus', function(){
-                        this.focus();
-                    }, 300);
-                },
-
-                /**
-                * The `contentsChanged` method will inject the content into the modal
-                *
-                * @method contentsChanged
-                */
-                contentsChanged: function(){
-                    this.appendChild(this.contents);
-                    this.contents.eventController = this.element.findController(this.contents);
-                },
-
-                /**
-                * The `toggle` method will open and close the modal
-                *
-                * @method toggle
-                */
-                toggle: function(){
-                    this[ this.shown ? 'close' : 'show' ]();
-                },
-
-                /**
-                 * The <polymer-element> has been fully prepared (e.g. Shadow DOM
-                 * created, property observers setup, event listeners attached, etc).
-                 * It will also bind accessibility
-                 *
-                 * @method ready
-                 */
-                ready: function(){
-                    this.setAttribute('role','dialog');
-
-                    this.async(function(){
-                        this.parentContainer = this.parentNode || document.body;
-                    }, 100);
-
-                    if(this.heading){
-                        this.setAttribute('aria-label', this.heading);
-                    }
-
-                }
+          // wait until injected, then focus
+          this.job('modal-shown', function() {
+            this.shown = true;
+            oldOverflow = document.body.style.overflow;
+            document.body.style.overflow = 'hidden';
+            this.fire('modal-shown', {
+              modal: this
             });
+          }, 300);
 
-            document.addEventListener('DOMContentLoaded', ensureInBody);
-            document.addEventListener('focus', ensureFocus, true);
-        }());
-    </script>
+          this.job('modal-focus', function() {
+            this.focus();
+          }, 300);
+        },
+
+        /**
+         * The `contentsChanged` method will inject the content into the modal
+         *
+         * @method contentsChanged
+         */
+        contentsChanged: function() {
+          this.appendChild(this.contents);
+          this.contents.eventController = this.element.findController(this.contents);
+        },
+
+        /**
+         * The `toggle` method will open and close the modal
+         *
+         * @method toggle
+         */
+        toggle: function() {
+          this[this.shown ? 'close' : 'show']();
+        },
+
+        /**
+         * The <polymer-element> has been fully prepared (e.g. Shadow DOM
+         * created, property observers setup, event listeners attached, etc).
+         * It will also bind accessibility
+         *
+         * @method ready
+         */
+        ready: function() {
+          this.setAttribute('role', 'dialog');
+
+          this.async(function() {
+            this.parentContainer = this.parentNode || document.body;
+          }, 100);
+
+          if (this.heading) {
+            this.setAttribute('aria-label', this.heading);
+          }
+
+        }
+      });
+
+      document.addEventListener('DOMContentLoaded', ensureInBody);
+      document.addEventListener('focus', ensureFocus, true);
+    }());
+  </script>
 </polymer-element>

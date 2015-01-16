@@ -1,106 +1,106 @@
 <!doctype html>
 <html>
 
-    <head>
-        <script>
-            window.location = 'http://filaraujo.github.io/akyral.io/modal/index.html';
-        </script>
+  <head>
+    <script>
+      window.location = 'http://filaraujo.github.io/akyral.io/modal/index.html';
+    </script>
 
-        <script src="../webcomponentsjs/webcomponents.js"></script>
-        <title>akyral-modal Demo</title>
-        <link rel="import" href="akyral-modal.html">
-    </head>
+    <script src="../webcomponentsjs/webcomponents.js"></script>
+    <title>akyral-modal Demo</title>
+    <link rel="import" href="akyral-modal.html">
+  </head>
 
-    <body>
+  <body>
 
-        <button name="button" data-modal="#modal1">standalone modal 1</button>
-        <button name="button" data-modal="#modal2">standalone modal 2</button>
-        <button name="button" data-modal="#modal3">extending modal</button>
+    <button name="button" data-modal="#modal1">standalone modal 1</button>
+    <button name="button" data-modal="#modal2">standalone modal 2</button>
+    <button name="button" data-modal="#modal3">extending modal</button>
 
-        <template is="auto-binding">
+    <template is="auto-binding">
 
-            <!-- modal1 -->
-            <akyral-modal id="modal1" role="dialog" aria-labelledby="modal-title" type="swing" pinned="top">
-                <h1 id="modal-title">Akyral Sample</h1>
-                <input type="text" name="some_name" value="{{ value }}" />
-                <button name="button" on-click="{{ onClick }}">close</button>
-            </akyral-modal>
+      <!-- modal1 -->
+      <akyral-modal id="modal1" role="dialog" aria-labelledby="modal-title" type="swing" pinned="top">
+        <h1 id="modal-title">Akyral Sample</h1>
+        <input type="text" name="some_name" value="{{ value }}" />
+        <button name="button" on-click="{{ onClick }}">close</button>
+      </akyral-modal>
 
-            <!-- modal2 -->
-            <akyral-modal id="modal2" position="bottom" type="slide">
-                <input type="text" name="some_name" value="{{ value }}" />
-                <button name="button" on-click="{{ onClick }}">close modal 2</button>
-            </akyral-modal>
-        </template>
-        <script charset="utf-8">
-            var tmpl = document.querySelector('template[is="auto-binding"]');
+      <!-- modal2 -->
+      <akyral-modal id="modal2" position="bottom" type="slide">
+        <input type="text" name="some_name" value="{{ value }}" />
+        <button name="button" on-click="{{ onClick }}">close modal 2</button>
+      </akyral-modal>
+    </template>
+    <script charset="utf-8">
+      var tmpl = document.querySelector('template[is="auto-binding"]');
 
-            tmpl.onClick = function(evt, num, el) {
-                el.parentNode.toggle();
-            };
-        </script>
+      tmpl.onClick = function(evt, num, el) {
+        el.parentNode.toggle();
+      };
+    </script>
 
-        <polymer-element name="test-el" extends="akyral-modal">
-            <template>
-                <div id="name">
-                    <input type="text" name="some_name" value=""/>
-                    <content></content>
-                </div>
-            </template>
-            <script>
-                Polymer('test-el', {});
-            </script>
-        </polymer-element>
-
-        <polymer-element name="test-el2">
-            <template>
-                <akyral-modal id="akydia" position="top"></akyral-modal>
-
-                <button on-click="{{ onClick }}">with .contents</button>
-
-                <div id="content2">
-                    i am content
-                    <button name="button" on-click="{{ onClose }}">close</button>
-                </div>
-            </template>
-            <script>
-                Polymer('test-el2', {
-                    ready: function() {
-                        this.$.akydia.contents = this.$.content2;
-                    },
-
-                    onClick: function() {
-                        this.$.akydia.toggle();
-                    },
-
-                    onClose: function() {
-                        this.$.akydia.close();
-                    }
-                });
-            </script>
-        </polymer-element>
-
-
+    <polymer-element name="test-el" extends="akyral-modal">
+      <template>
         <div id="name">
-            <!-- modal3 -->
-            <test-el id="modal3" type="slide">
-                content
-            </test-el>
+          <input type="text" name="some_name" value="" />
+          <content></content>
         </div>
+      </template>
+      <script>
+        Polymer('test-el', {});
+      </script>
+    </polymer-element>
 
-        <test-el2 type="slide"></test-el2>
+    <polymer-element name="test-el2">
+      <template>
+        <akyral-modal id="akydia" position="top"></akyral-modal>
+
+        <button on-click="{{ onClick }}">with .contents</button>
+
+        <div id="content2">
+          i am content
+          <button name="button" on-click="{{ onClose }}">close</button>
+        </div>
+      </template>
+      <script>
+        Polymer('test-el2', {
+          ready: function() {
+            this.$.akydia.contents = this.$.content2;
+          },
+
+          onClick: function() {
+            this.$.akydia.toggle();
+          },
+
+          onClose: function() {
+            this.$.akydia.close();
+          }
+        });
+      </script>
+    </polymer-element>
 
 
-        <script>
-            var buttons = document.querySelectorAll('button');
+    <div id="name">
+      <!-- modal3 -->
+      <test-el id="modal3" type="slide">
+        content
+      </test-el>
+    </div>
 
-            [].forEach.call(buttons, function(button) {
-                button.addEventListener('click', function() {
-                    var modal = button.getAttribute('data-modal');
-                    document.querySelector(modal).toggle();
-                });
-            });
-        </script>
-    </body>
+    <test-el2 type="slide"></test-el2>
+
+
+    <script>
+      var buttons = document.querySelectorAll('button');
+
+      [].forEach.call(buttons, function(button) {
+        button.addEventListener('click', function() {
+          var modal = button.getAttribute('data-modal');
+          document.querySelector(modal).toggle();
+        });
+      });
+    </script>
+  </body>
 
 </html>
