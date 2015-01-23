@@ -31,7 +31,7 @@ $modalMarginViewportUnit: 5vmin;
     top: 0;
     visibility: hidden;
     will-change: opacity;
-    z-index: 100;
+    z-index: 1000;
 }
 
 :host([core][shown]){
