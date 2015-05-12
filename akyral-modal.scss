@@ -25,8 +25,8 @@ $modalMarginViewportUnit: 5vmin;
     right: 0;
     transform: translate3d(0,0,0);
     transition:
-        opacity .3s 0,
-        visibility 0 .3s;
+        opacity .3s 0s,
+        visibility 0s .3s;
     transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
     top: 0;
     visibility: hidden;
@@ -38,8 +38,8 @@ $modalMarginViewportUnit: 5vmin;
     pointer-events: all;
     opacity: 1;
     transition:
-        opacity .3s 0,
-        visibility 0 0;
+        opacity .3s 0s,
+        visibility 0s 0s;
     visibility: visible;
 }
 
@@ -75,8 +75,8 @@ $modalMarginViewportUnit: 5vmin;
     transform: translate3d(0,0,0);
     transition:
         transform .3s,
-        opacity .3s 0,
-        visibility 0 .3s;
+        opacity .3s 0s,
+        visibility 0s .3s;
     transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
     visibility: hidden;
     will-change: transform, opacity;

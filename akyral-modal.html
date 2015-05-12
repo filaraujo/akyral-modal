@@ -131,6 +131,8 @@ Example:
 
         targetEl,
 
+        lastModal,
+
         lastFocus,
 
         docEl = document.body || document.documentElement,
@@ -302,6 +304,12 @@ Example:
 
           this.tabIndex = -1;
 
+          if (baseEl.shown) {
+            lastModal.close();
+            this.job('modal-shown', this.show, 300);
+            return false;
+          }
+
           baseEl.setAttribute('type', this.type);
           baseEl.setAttribute('pinned', this.pinned);
           baseEl.bind('shown', new PathObserver(this, 'shown'));
@@ -312,6 +320,7 @@ Example:
             this.shown = true;
             oldOverflow = document.body.style.overflow;
             document.body.style.overflow = 'hidden';
+            lastModal = this;
             this.fire('modal-shown', {
               modal: this
             });
