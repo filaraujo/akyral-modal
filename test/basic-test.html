@@ -139,18 +139,15 @@
                         assert.isTrue(el.parentNode === coreEl);
                     });
 
-                    test('should fire a "modal-shown" event after opening', function(done) {
+                    test('should fire a "modal-shown" event after opening', function() {
                         var el = diagWithAttrsEl.cloneNode();
-
-                        flush(function() {
-                            el.show();
-                        });
 
                         el.addEventListener('modal-shown', function(e){
                             assert.isDefined(event);
                             assert.equal(event.type, 'modal-shown');
-                            done();
                         });
+
+                        el.show();
                     });
                 });
 
@@ -160,27 +157,21 @@
                     var el = diagWithAttrsEl.cloneNode(),
                         coreEl = document.querySelector('akyral-modal[core]');
 
-                    test('should set the "shown" property to false', function(done) {
+                    test('should set the "shown" property to false', function() {
                         el.show();
-
-                        // wait for open it
-                        flush(function() {
-                            el.close();
-
-                            // wait for close it
-                            flush(function() {
-                                assert.isFalse(el.shown);
-                                done();
-                            });
-                        });
+                        el.close();
+                        assert.isFalse(el.shown);
                     });
 
                     test('should remove the "shown" attribute', function() {
                         assert.isFalse(el.hasAttribute('shown'));
                     });
 
-                    test('should set the "shown" property on the core modal to false', function() {
+                    test('should set the "shown" property on the core modal to false', function(done) {
+                      setTimeout(function() {
                         assert.isFalse(coreEl.shown);
+                        done();
+                      }, 200);
                     });
 
                     test('should remove the "shown" attribute from the core modal', function() {
@@ -188,7 +179,7 @@
                     });
 
                     test('should move the modal out of the core modal', function(done) {
-                        setTimeout(function(){
+                        setTimeout(function() {
                             assert.isTrue(el.parentNode !== coreEl);
                             done();
                         }, 200);
@@ -197,19 +188,13 @@
                     test('should fire a "modal-closed" event after closing', function(done) {
                         var el = diagWithAttrsEl.cloneNode();
 
-                        flush(function() {
-                            el.show();
-
-                            flush(function() {
-                                el.close();
-                            });
-                        });
-
                         el.addEventListener('modal-closed', function(e){
                             assert.isDefined(event);
                             assert.equal(event.type, 'modal-closed');
                             done();
                         });
+                        el.show();
+                        el.close();
                     });
 
                 });
@@ -222,17 +207,14 @@
 
                         el.toggle();
                         assert.isTrue(spy.called);
+
                     });
 
-                    test('should call the close method if the modal is visible', function(done) {
+                    test('should call the close method if the modal is visible', function() {
                         var spy = sinon.spy(el, 'close');
-
-                        setTimeout(function(){
-                            el.toggle();
-                            assert.isTrue(spy.called);
-                            done();
-                        }, 350);
-
+                        el.shown = true;
+                        el.toggle();
+                        assert.isTrue(spy.called);
                     });
                 });
             });
