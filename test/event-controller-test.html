@@ -22,18 +22,20 @@
                         display: block;
                     }
                 </style>
-                <akyral-modal id="modal" on-modal-shown="{{ doSomething }}">
+                <akyral-modal id="modal" on-modal-shown="doSomething">
                     test
                 </akyral-modal>
             </template>
             <script>
-                Polymer('some-element', {
+                Polymer({
 
-                    doSomething: function(){},
+                  is:'some-element',
 
-                    ready: function(){
-                        this.$.modal.eventController = this;
-                    }
+                  doSomething: function(){},
+
+                  ready: function(){
+                    this.$.modal.eventController = this;
+                  }
                 });
             </script>
         </polymer-element>
