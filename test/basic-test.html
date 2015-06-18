@@ -189,6 +189,7 @@
                         var el = diagWithAttrsEl.cloneNode();
 
                         el.addEventListener('modal-closed', function(e){
+                            //@TODO this is fired when  the element is cloned below
                             assert.isDefined(event);
                             assert.equal(event.type, 'modal-closed');
                             done();
