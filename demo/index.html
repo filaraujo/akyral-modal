@@ -3,53 +3,94 @@
 
   <head>
     <script>
-      // window.location = 'http://filaraujo.github.io/akyral.io/modal/index.html';
+      window.location = 'http://filaraujo.github.io/akyral.io/modal/index.html';
     </script>
 
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <title>akyral-modal Demo</title>
     <link rel="import" href="../akyral-modal.html">
+
+    <style media="screen">
+      body {
+        background: #ccf;
+      }
+      .controls {
+        background: #000;
+        left: 0;
+        position: fixed;
+        right: 0;
+        top: 0;
+        z-index: 100003;
+      }
+    </style>
   </head>
 
   <body>
 
-    <button name="button" class="open-button" data-modal="#modal1">standalone modal 1</button>
-    <button name="button" class="open-button" data-modal="#modal2">standalone modal 2</button>
-
     <template id="tmpl" is="dom-bind">
 
-      <!-- modal1 -->
-      <akyral-modal id="modal1" role="dialog" aria-labelledby="modal-title" type="swing" pinned="top">
-        <h1 id="modal-title">Akyral Sample</h1>
-        <input type="text" name="some_name" value="{{value}}" />
-        <button name="button" on-click="onClick">close</button>
-      </akyral-modal>
+      <div class="controls">
+        <button type="button" on-click="onClick" name="modal1">standalone modal 1</button>
 
-      <!-- modal2 -->
-      <akyral-modal id="modal2" position="bottom" type="slide">
+        <hr>
+
+        <select value="{{position::change}}">
+          <option value="" selected>none</option>
+          <option value="bottom">bottom</option>
+          <option value="left">left</option>
+          <option value="right">right</option>
+          <option value="top">top</option>
+        </select>
+
+        <select value="{{type::change}}">
+          <option value="drop">drop</option>
+          <option value="flip">flip</option>
+          <option value="lift">lift</option>
+          <option value="slide">slide</option>
+          <option value="swing">swing</option>
+          <option value="takeover" selected>takeover</option>
+        </select>
+
+        <select value="{{pinned::change}}">
+          <option value="" selected>none</option>
+          <option value="bottom">bottom</option>
+          <option value="left">left</option>
+          <option value="right">right</option>
+          <option value="top">top</option>
+        </select>
+
+        <button type="button" on-click="onClick" name="modal2">open custom modal</button>
+      </div>
+
+      <div class="" style="transform: translate3d(0,0,0); height: 500px">
+        <akyral-modal id="modal1">
+          <h1 id="modal-title">Sample 1</h1>
+          <input type="text" name="some_name" value="{{value}}" />
+          <button name="modal1" on-click="onClick">close</button>
+        </akyral-modal>
+      </div>
+
+      <akyral-modal
+        id="modal2"
+        pinned$="{{pinned}}"
+        position$="{{position}}"
+        type$="{{type}}" >
+
+        <h1 id="modal-title">Sample 2</h1>
         <input type="text" name="some_name" value="{{value}}" />
-        <button name="button" on-click="onClick">close modal 2</button>
+        <button name="modal2" on-click="onClick">close</button>
       </akyral-modal>
 
     </template>
 
     <script charset="utf-8">
       var tmpl = document.querySelector('template[is="dom-bind"]');
+      tmpl.type = 'takeover';
 
       tmpl.onClick = function(e) {
-        e.currentTarget.parentNode.toggle();
+        tmpl.$[e.target.name].toggle();
       };
     </script>
-
-    <script>
-     var buttons = document.getElementsByClassName('open-button');
-     [].forEach.call(buttons, function(button) {
-       button.addEventListener('click', function() {
-         var modal = button.getAttribute('data-modal');
-         document.querySelector(modal).toggle();
-       });
-     });
-   </script>
 
   </body>
 

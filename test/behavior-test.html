@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+        <title>akyral-modal</title>
+
+        <script src="../../webcomponentsjs/webcomponents.js"></script>
+        <script src="../../web-component-tester/browser.js"></script>
+        <script src="../../sinon/index.js"></script>
+
+        <link rel="import" href="../akyral-modal-behavior.html">
+    </head>
+
+    <body>
+
+      <script>
+        Polymer({
+          is: 'demo-modal',
+          behaviors: [window.AkyralModalBehavior]
+        });
+
+        var modalEl = document.createElement('demo-modal');
+        document.body.appendChild(modalEl);
+
+        describe('<akyral-modal>', function() {
+          beforeEach(function() {
+            var el = document.createElement('demo-modal');
+            modalEl.parentElement.replaceChild(el, modalEl);
+            modalEl = el;
+          });
+
+          it('adds to the global namespace', function() {
+            assert.isDefined(window.AkyralModalBehavior);
+            assert.isArray(window.AkyralModalBehavior);
+          });
+
+          it('includes IronA11yKeysBehavior behavior', function() {
+            assert.include(window.AkyralModalBehavior, Polymer.IronA11yKeysBehavior);
+          });
+
+          it('correctly extends as a behavior', function() {
+            assert.isDefined(modalEl.author);
+            assert.isFunction(modalEl.close);
+            assert.isFunction(modalEl.toggle);
+            assert.isFunction(modalEl.show);
+            assert.isDefined(modalEl.shown);
+          });
+        });
+      </script>
+    </body>
+
+</html>

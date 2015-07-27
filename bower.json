@@ -1,6 +1,6 @@
 {
   "name": "akyral-modal",
-  "version": "2.9.9",
+  "version": "3.0.0",
   "authors": [
     "Filipe Araujo <filipe.alves.araujo@gmail.com>"
   ],
@@ -26,8 +26,8 @@
     "tests"
   ],
   "dependencies": {
-    "polymer": "~1.0.2",
-    "iron-a11y-keys": "PolymerElements/iron-a11y-keys#~1.0.1"
+    "polymer": "~1.0.8",
+    "iron-a11y-keys": "polymerElements/iron-a11y-keys#~1.0.2"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#~1.0.4",

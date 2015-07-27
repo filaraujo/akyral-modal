@@ -1,88 +1,61 @@
-@import '../../sass/_mediaqueries';
+@import '../sass/_mediaqueries';
 
 $overlayColor: #333;
 $modalMargin: 16px;
 $modalMarginViewportUnit: 5vmin;
 
-
 :host {
-    display: none;
+  align-items: center;
+  background: $overlayColor;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  left: 0;
+  min-width: 320px;
+  opacity: 0;
+  overflow: hidden;
+  perspective: 1300px;
+  pointer-events: none;
+  position: fixed;
+  right: 0;
+  top: 0;
+  transform: translate3d(0,0,0);
+  transition:
+      opacity .3s 0s,
+      visibility 0s .3s;
+  transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
+  visibility: hidden;
+  will-change: opacity;
+  z-index: 1000;
 }
 
-:host([core]) {
-    align-items: center;
-    background: $overlayColor;
-    bottom: 0;
-    display: flex;
-    justify-content: center;
-    left: 0;
-    min-width: 320px;
-    opacity: 0;
-    overflow: auto;
-    perspective: 1300;
-    pointer-events: none;
-    position: fixed;
-    right: 0;
-    transform: translate3d(0,0,0);
-    transition:
-        opacity .3s 0s,
-        visibility 0s .3s;
-    transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
-    top: 0;
-    visibility: hidden;
-    will-change: opacity;
-    z-index: 1000;
+:host([animate]) {
+  opacity: 1;
+  pointer-events: all;
+  transition:
+      opacity .3s 0s,
+      visibility 0s 0s;
+  visibility: visible;
 }
 
-:host([core][shown]){
-    pointer-events: all;
-    opacity: 1;
-    transition:
-        opacity .3s 0s,
-        visibility 0s 0s;
-    visibility: visible;
+#content {
+  background: #fff;
+  max-width: 720px;
+  overflow: auto;
+  opacity: 0;
+  padding: $modalMargin;
+  padding: $modalMarginViewportUnit;
+  transform: translate3d(0, 0, 0);
+  transition:
+      transform .3s,
+      opacity .3s 0s,
+      visibility 0s .3s;
+  transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
+  visibility: hidden;
+  will-change: transform, opacity;
 }
 
-:host([core]:not([type])),
-:host([core][type="takeover"]){
-    background: #fff;
-}
-
-:host([core][pinned="top"]){
-    align-items: flex-start;
-}
-
-:host([core][pinned="left"]){
-    justify-content: flex-start;
-}
-
-:host([core][pinned="bottom"]){
-    align-items: flex-end;
-}
-
-:host([core][pinned="right"]){
-    justify-content: flex-end;
-}
-
-:host([content]) {
-    background: #fff;
-    display: block;
-    max-width: 720px;
-    overflow: auto;
-    opacity: 0;
-    padding: $modalMargin;
-    padding: $modalMarginViewportUnit;
-    transform: translate3d(0,0,0);
-    transition:
-        transform .3s,
-        opacity .3s 0s,
-        visibility 0s .3s;
-    transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
-    visibility: hidden;
-    will-change: transform, opacity;
-}
-
-:host([content][shown]) {
+:host([animate]) #content {
     opacity: 1;
     transform: translate3d(0,0,0) !important;
     transition:
@@ -92,150 +65,172 @@ $modalMarginViewportUnit: 5vmin;
 }
 
 
-// TYPES
-// takeover
-:host([content][type="takeover"]) {
-    transform: scale(.85) ;
+:host(:not([type])),
+:host([type="takeover"]) {
+  background: #fff;
 }
 
-:host([content][type="takeover"][shown]) & {
-    transform: scale(1);
+// TYPES
+
+// takeover
+:host([type="takeover"]) #content {
+  transform: scale(.85) ;
+
+  &[animate] {
+      transform: scale(1);
+  }
 }
 
 // drop
-:host([content][type="drop"]){
+:host([type="drop"]) #content {
     transform-style: preserve-3d;
     transform: translate3d(0,0,300px);
 }
 
-:host([content][type="drop"][position="top"]) {
+:host([type="drop"][position="top"]) #content {
     transform: translate3d(0,-30%,300px);
 }
 
-:host([content][type="drop"][position="left"]) {
+:host([type="drop"][position="left"]) #content {
     transform: translate3d(-30%,0,300px);
 }
 
-:host([content][type="drop"][position="bottom"]) {
+:host([type="drop"][position="bottom"]) #content {
     transform: translate3d(0,30%,300px);
 }
 
-:host([content][type="drop"][position="right"]) {
+:host([type="drop"][position="right"]) #content {
     transform: translate3d(30%,0,300px);
 }
 
-
 // flip
-:host([content][type="flip"]){
+:host([type="flip"]) #content {
     // defaults to top
     transform: rotateX(-70deg) translate3d(0,0,0);
 }
-:host([content][type="flip"][position="left"]){
+:host([type="flip"][position="left"]) #content {
     transform: rotateY(70deg) translate3d(0,0,0);
 }
 
-:host([content][type="flip"][position="bottom"]){
+:host([type="flip"][position="bottom"]) #content {
     transform: rotateX(70deg) translate3d(0,0,0);
 }
 
-:host([content][type="flip"][position="right"]){
+:host([type="flip"][position="right"]) #content {
     transform: rotateY(-70deg) translate3d(0,0,0);
 }
 
 // lift
-:host([content][type="lift"]) {
+:host([type="lift"]) #content {
     transform: translate3d(0,0,-300px);
 }
 
-:host([content][type="lift"][position="top"]) {
+:host([type="lift"][position="top"]) #content {
     transform: translate3d(0,-30%,-300px);
 }
 
-:host([content][type="lift"][position="left"]) {
+:host([type="lift"][position="left"]) #content {
     transform: translate3d(-30%,0,-300px);
 }
 
-:host([content][type="lift"][position="bottom"]) {
+:host([type="lift"][position="bottom"]) #content {
     transform: translate3d(0,30%,-300px);
 }
 
-:host([content][type="lift"][position="right"]) {
+:host([type="lift"][position="right"]) #content {
     transform: translate3d(30%,0,-300px);
 }
 
+// pinned
+:host([pinned="top"]) {
+    align-items: flex-start;
+}
+
+:host([pinned="left"]) {
+    justify-content: flex-start;
+}
+
+:host([pinned="bottom"]) {
+    align-items: flex-end;
+}
+
+:host([pinned="right"]) {
+    justify-content: flex-end;
+}
+
 // slide
-:host([content][type="slide"]) {
+:host([type="slide"]) #content {
     // defaults to top
     transform: translate3d(0,-20%,0);
 }
-//slide position
-:host([content][type="slide"][position="left"]){
+
+// slide position
+:host([type="slide"][position="left"]) #content {
     transform: translate3d(-20%,0,0);
 }
 
-:host([content][type="slide"][position="bottom"]){
+:host([type="slide"][position="bottom"]) #content {
     transform: translate3d(0,20%,0);
 }
 
-:host([content][type="slide"][position="right"]){
+:host([type="slide"][position="right"]) #content {
     transform: translate3d(20%,0,0);
 }
 
 //slide pinned
-:host([content][type="slide"][pinned="top"]){
+:host([type="slide"][pinned="top"]) #content {
     transform: translate3d(0,-100%,0);
 }
 
-:host([content][type="slide"][pinned="left"]){
+:host([type="slide"][pinned="left"]) #content {
     transform: translate3d(-100%,0,0);
 }
 
-:host([content][type="slide"][pinned="bottom"]){
-    transform: translate3d(0,100%,0);
+:host([type="slide"][pinned="bottom"]) #content {
+    transform: translate3d(0, 100%, 0);
 }
 
-:host([content][type="slide"][pinned="right"]){
+:host([type="slide"][pinned="right"]) #content {
     transform: translate3d(100%,0,0);
 }
 
-// swing
-:host([content][type="swing"]){
+// swing position
+:host([type="swing"]) #content {
     transform-origin: 50% 0%;
     transform: rotateX(-60deg) translate3d(0,0,0);
 }
 
-// swing position
-:host([content][type="swing"][position="left"]){
+:host([type="swing"][position="left"]) #content {
     transform-origin: 0% 0%;
     transform: rotateY(60deg) translate3d(0,0,0);
 }
 
-:host([content][type="swing"][position="bottom"]){
+:host([type="swing"][position="bottom"]) #content {
     transform-origin: 50% 100%;
     transform: rotateX(60deg) translate3d(0,0,0);
 }
 
-:host([content][type="swing"][position="right"]){
+:host([type="swing"][position="right"]) #content {
     transform-origin: 100% 0%;
     transform: rotateY(-60deg) translate3d(0,0,0);
 }
-// swing pinned
-:host([content][type="swing"][pinned="top"]){
+
+:host([type="swing"][pinned="top"]) #content {
     transform-origin: 0 0;
     transform: rotateX(-90deg) translate3d(0,-20px,0) ;
 }
 
-:host([content][type="swing"][pinned="left"]){
+:host([type="swing"][pinned="left"]) #content {
     transform-origin: 0 0;
     transform: rotateY(90deg) translate3d(-20px,0,0) ;
 }
 
-:host([content][type="swing"][pinned="bottom"]){
+:host([type="swing"][pinned="bottom"]) #content {
     transform-origin: 0 100%;
     transform: rotateX(90deg) translate3d(0,20px,0);
 }
 
-:host([content][type="swing"][pinned="right"]){
+:host([type="swing"][pinned="right"]) #content {
     transform-origin: 100% 0;
     transform: rotateY(-90deg) translate3d(20px,0,0) ;
 }

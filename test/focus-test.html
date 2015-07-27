@@ -1,61 +1,62 @@
 <!doctype html>
 <html>
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-        <title>akyral-modal</title>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title>akyral-modal</title>
 
-        <script src="../../webcomponentsjs/webcomponents.js"></script>
-        <script src="../../web-component-tester/browser.js"></script>
-        <script src="../../sinon/index.js"></script>
+    <script src="../../webcomponentsjs/webcomponents.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+    <script src="../../sinon/index.js"></script>
 
-        <link rel="import" href="../akyral-modal.html">
-    </head>
+    <link rel="import" href="../akyral-modal.html">
+  </head>
 
-    <body>
+  <body>
 
-        <akyral-modal id="diag">
-            <input id="input1" type="text" name="some_name" value="" />
-            <input id="input2" type="text" name="some_name" value="" />
-            <input id="input3" type="text" name="some_name" value="" />
-        </akyral-modal>
+    <akyral-modal id="diag">
+      <input id="input1" type="text" name="some_name" value="" />
+      <input id="input2" type="text" name="some_name" value="" />
+      <input id="input3" type="text" name="some_name" value="" />
+    </akyral-modal>
 
-        <script>
-            var diagEl = document.querySelector('#diag'),
-                input1 = document.querySelector('#input1'),
-                input2 = document.querySelector('#input2'),
-                input3 = document.querySelector('#input3');
+    <script>
+      var modelEl = document.querySelector('#diag');
+      var input1 = document.querySelector('#input1');
+      var input2 = document.querySelector('#input2');
+      var input3 = document.querySelector('#input3');
 
-            suite('<akyral-modal>', function() {
+      describe('<akyral-modal>', function() {
 
-                suite('when showing', function() {
-                    test('should set the modal as the first focusable element', function(done) {
+        describe('when showing', function() {
+          it('should set the modal as the first focusable element',
+          function(done) {
 
-                        diagEl.show();
+            modelEl.show();
 
-                        setTimeout(function(){
-                            assert.isTrue(diagEl === document.activeElement);
-                            done();
-                        }, 500);
-                    });
+            setTimeout(function(){
+                assert.isTrue(modelEl.$.content === document.activeElement);
+                done();
+            }, 500);
+          });
 
-                    test('TBD: should set the next element when hitting tab key', function() {
+          it('TBD: should set the next element when hitting tab key', function() {
 
-                        // var e = new KeyboardEvent("keydown", {
-                        //     bubbles: true,
-                        //     cancelable: true
-                        // });
-                        //
-                        // delete e.keyCode;
-                        // Object.defineProperty(e, 'keyCode', { 'value' : 9 });
-                        //
-                        // diagEl.dispatchEvent(e);
-                        // assert.isTrue(input2 === document.activeElement);
-                    });
-                });
-            });
-        </script>
-    </body>
+              // var e = new KeyboardEvent("keydown", {
+              //     bubbles: true,
+              //     cancelable: true
+              // });
+              //
+              // delete e.keyCode;
+              // Object.defineProperty(e, 'keyCode', { 'value' : 9 });
+              //
+              // diagEl.dispatchEvent(e);
+              // assert.isTrue(input2 === document.activeElement);
+          });
+        });
+      });
+    </script>
+  </body>
 
 </html>

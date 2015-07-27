@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title>akyral-modal</title>
+
+    <script src="../../webcomponentsjs/webcomponents.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+    <script src="../../sinon/index.js"></script>
+
+    <link rel="import" href="../akyral-modal.html">
+  </head>
+
+  <body>
+
+    <div>
+      <akyral-modal id="modal1"></akyral-modal>
+    </div>
+
+    <div>
+      <akyral-modal id="modal2"></akyral-modal>
+    </div>
+
+    <script>
+      var modalEl1 = document.querySelector('#modal1');
+      var modalEl2 = document.querySelector('#modal2');
+
+      describe('<akyral-modal> - multiples', function() {
+
+        describe('when showing a modal', function() {
+          context('and another modal is already open', function() {
+            beforeEach(function() {
+              modalEl1.show();
+              modalEl2.show();
+            });
+
+            it('closes the first modal', function() {
+              assert.isFalse(modalEl1.shown);
+            });
+
+            it('opens the new modal', function() {
+              assert.isTrue(modalEl2.shown);
+            });
+          });
+        });
+      });
+    </script>
+  </body>
+
+</html>

@@ -15,54 +15,42 @@
 
     <body>
 
-        <polymer-element name="some-element">
-            <template>
-                <style>
-                    :host {
-                        display: block;
-                    }
-                </style>
-                <akyral-modal id="modal" on-modal-shown="doSomething">
-                    test
-                </akyral-modal>
-            </template>
-            <script>
-                Polymer({
-
-                  is:'some-element',
-
-                  doSomething: function(){},
-
-                  ready: function(){
-                    this.$.modal.eventController = this;
-                  }
-                });
-            </script>
-        </polymer-element>
-
-
-        <some-element></some-element>
-
+      <dom-module name="some-element">
+        <template>
+          some element
+          <akyral-modal id="modal" on-modal-show="doSomething">
+              test
+          </akyral-modal>
+        </template>
         <script>
-            var someEl = document.querySelector('some-element'),
-                someElWithController = document.querySelector('some-element[hascontroller]');
+          Polymer({
 
+            is:'some-element',
 
-            suite('<akyral-modal>', function() {
-
-                suite('when eventController is set', function() {
-                    test('should execute the controllers events', function(done) {
-                        var spy = sinon.spy(someEl, 'doSomething');
-                        someEl.$.modal.show();
-
-                        setTimeout(function(){
-                            assert.isTrue(spy.called);
-                            done();
-                        }, 350);
-                    });
-                });
-            });
+            doSomething: function(){}
+          });
         </script>
-    </body>
+      </dom-module>
 
+      <some-element></some-element>
+
+      <script>
+          var someEl = document.querySelector('some-element');
+          var someElWithController = document.querySelector('some-element[hascontroller]');
+
+          describe('<akyral-modal>', function() {
+            describe('when eventController is set', function() {
+              it('should execute the controllers events', function(done) {
+                var spy = sinon.spy(someEl, 'doSomething');
+                someEl.$.modal.show();
+
+                setTimeout(function(){
+                  assert.isTrue(spy.called);
+                  done();
+                }, 350);
+              });
+            });
+          });
+      </script>
+    </body>
 </html>
