@@ -174,7 +174,7 @@
         return;
       }
 
-      this._parentEl = Polymer.dom(this.parentElement);
+      this._parentEl = Polymer.dom(this.parentElement).node;
       this._placeholder = document.createElement('akyral-modal-placeholder');
     }
   };
