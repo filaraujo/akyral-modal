@@ -6,6 +6,7 @@
   var docEl = document.body || document.documentElement;
   var lastFocus = docEl;
   var lastModal = {};
+  var lastOverflow;
 
   /**
    * sets the animate state of the element and focuses the target
@@ -52,8 +53,10 @@
   function show() {
     closeLastModal.call(this);
     lastModal = this;
+    lastOverflow = docEl.style.overflow;
 
     this._parentEl.appendChild(this._placeholder);
+    docEl.style.overflow = 'hidden';
     docEl.insertBefore(this, docEl.firstChild);
 
     this.debounce('animate', animateAndFocus, 300);
@@ -65,6 +68,7 @@
    */
   function swapAndResetFocus() {
     this._parentEl.replaceChild(this, this._placeholder);
+    docEl.style.overflow = lastOverflow;
     lastFocus.focus();
   }
 
