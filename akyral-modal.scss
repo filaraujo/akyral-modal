@@ -16,7 +16,7 @@ $modalMarginViewportUnit: 5vmin;
   overflow: hidden;
   perspective: 1300px;
   pointer-events: none;
-  position: fixed;
+  position: absolute;
   right: 0;
   top: 0;
   transform: translate3d(0,0,0);
