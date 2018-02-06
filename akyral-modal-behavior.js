@@ -68,7 +68,7 @@
    */
   function swapAndResetFocus() {
     this._parentEl.replaceChild(this, this._placeholder);
-    docEl.style.overflow = lastOverflow;
+    docEl.style.overflow = !lastModal.shown ? '' : lastOverflow;
     lastFocus.focus();
   }
 
