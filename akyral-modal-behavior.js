@@ -102,6 +102,13 @@
       },
 
       /**
+       * defines the ability to disable closing the modal
+       */
+      disableClose: {
+        type: Boolean
+      },
+
+      /**
        * defines the visibility state of the component
        */
       shown: {
@@ -142,9 +149,12 @@
     },
 
     /**
-     * closes the modal
+     * closes the modal if not disabled.
      */
     close: function() {
+      if (this.disable) {
+        return;
+      }
       this.shown = false;
     },
 
