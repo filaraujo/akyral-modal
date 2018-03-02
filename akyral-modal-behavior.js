@@ -72,6 +72,11 @@
     lastFocus.focus();
   }
 
+  /**
+   * AkyralModalImpl
+   *
+   * @polymerBehavior
+   */
   var AkyralModalImpl = {
 
     properties: {
@@ -183,6 +188,11 @@
     }
   };
 
+  /**
+   * Akyral Modal Behavior
+   *
+   * @polymerBehavior
+   */
   window.AkyralModalBehavior = [
     Polymer.IronA11yKeysBehavior,
     AkyralModalImpl
